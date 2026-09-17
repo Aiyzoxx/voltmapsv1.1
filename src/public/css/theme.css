@@ -1,0 +1,68 @@
+:root {
+  --bg-primary: #0e0e1a;
+  --bg-secondary: #13131f;
+  --bg-tertiary: #1e1e30;
+  --bg-hover: #1c1c2a;
+  --text-primary: #e8e8f0;
+  --text-secondary: #8a8aaa;
+  --text-tertiary: #4a4a6a;
+  --border-color: #1e1e30;
+  --border-color-hover: #7c5cfc;
+  --accent-primary: #7c5cfc;
+  --accent-secondary: #5b3fd4;
+  --accent-tertiary: #4a34b2;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 24px rgba(124, 92, 252, 0.15);
+  --shadow-xl: 0 24px 40px rgba(124, 92, 252, 0.25);
+  --glass-bg: rgba(19, 19, 31, 0.85);
+  --glass-border: rgba(124, 92, 252, 0.3);
+  --glass-backdrop: 12px;
+  --transition-speed: 0.2s;
+}
+html.dark-mode {
+  --bg-primary: #0e0e1a;
+  --bg-secondary: #13131f;
+  --bg-tertiary: #1e1e30;
+  --bg-hover: #1c1c2a;
+  --text-primary: #e8e8f0;
+  --text-secondary: #8a8aaa;
+  --text-tertiary: #4a4a6a;
+  --border-color: #1e1e30;
+  --border-color-hover: #7c5cfc;
+  --accent-primary: #7c5cfc;
+  --accent-secondary: #5b3fd4;
+  --accent-tertiary: #4a34b2;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 24px rgba(124, 92, 252, 0.15);
+  --shadow-xl: 0 24px 40px rgba(124, 92, 252, 0.25);
+  --glass-bg: rgba(19, 19, 31, 0.85);
+  --glass-border: rgba(124, 92, 252, 0.3);
+  --glass-backdrop: 12px;
+}
+*, body, html {
+  transition: background-color var(--transition-speed) cubic-bezier(0.2, 0.9, 0.4, 1.1), color var(--transition-speed) cubic-bezier(0.2, 0.9, 0.4, 1.1), border-color var(--transition-speed) cubic-bezier(0.2, 0.9, 0.4, 1.1), box-shadow var(--transition-speed) cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+html.prevent-transition, html.prevent-transition * {
+  transition: none !important;
+}
+body {
+  background-color: var(--bg-primary) !important;
+  background-image: radial-gradient(ellipse at 20% 20%, rgba(124,92,252,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(91,63,212,0.06) 0%, transparent 60%) !important;
+  color: var(--text-primary) !important;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif !important;
+}
+.theme-toggle-btn { display: none; }
+
+#progress-bar {
+  border: 1px solid #7c5cfc !important;
+  box-shadow: 0 0 15px rgba(124, 92, 252, 0.2) !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+}
+
+#progress-fill {
+  background: var(--accent-primary) !important;
+  box-shadow: 0 0 15px rgba(124, 92, 252, 0.5) !important;
+}

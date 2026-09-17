@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VOLT Music Player</title>
+    <link rel="stylesheet" href="fontawesome-fallback.css">
+    <style>
+
+
+        :root {
+            --bg-base: #08080a;
+            --accent: #00d4ff;
+            --accent-glow: rgba(0, 212, 255, 0.3);
+            --text-primary: #ffffff;
+            --text-muted: #a1a1aa;
+            --danger: #ff4d6a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            user-select: none;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 0% 0%, rgba(0, 212, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 100% 100%, rgba(0, 212, 255, 0.05) 0%, transparent 40%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .glass-panel {
+            position: relative;
+            z-index: 1;
+            background: rgba(17, 17, 20, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* ── HEADER ── */
+        .header {
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            -webkit-app-region: drag;
+            gap: 12px;
+        }
+
+        .header-title {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .header-url {
+            flex: 1;
+            overflow: hidden;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-align: center;
+            -webkit-app-region: drag;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent);
+            font-size: 10px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--accent);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+        }
+
+        /* ── PLAYER ── */
+        #player-wrapper {
+            flex: 1;
+            position: relative;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        #player-container {
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #player-container:hover {
+            transform: scale(1.01);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #000;
+        }
+
+        /* ── CONTROLS ── */
+        .controls {
+            padding: 18px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 15px;
+            color: #fff;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            color: var(--accent);
+        }
+
+        .icon-btn:active {
+            transform: translateY(0);
+        }
+
+        .divider {
+            width: 1px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+
+        .slider-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        input[type=range] {
+            flex: 1;
+            appearance: none;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            height: 6px;
+            cursor: pointer;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+            border: 3px solid var(--bg-base);
+        }
+
+        .volume-value {
+            font-size: 12px;
+            font-weight: 700;
+            min-width: 40px;
+            text-align: right;
+            color: var(--accent);
+        }
+
+        /* ── URL EDITOR OVERLAY ── */
+        #url-editor-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        #url-editor-overlay.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .url-editor-card {
+            background: #111114;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 28px;
+            width: min(420px, calc(100vw - 40px));
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .url-editor-title {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .url-editor-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        #url-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 12px;
+            font-family: 'Inter', monospace;
+            color: #fff;
+            outline: none;
+            width: 100%;
+            transition: border-color 0.2s;
+        }
+
+        #url-input:focus {
+            border-color: var(--accent);
+        }
+
+        #url-error {
+            font-size: 11px;
+            color: var(--danger);
+            min-height: 16px;
+        }
+
+        .url-editor-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-ghost {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.15);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <div class="header glass-panel">
+        <span class="header-title">SOUNDCLOUD</span>
+        <span class="header-url" id="current-url-label" title="Playlist active" data-i18n-title="player.activePlaylist"></span>
+        <div style="display:flex;align-items:center;gap:8px;-webkit-app-region:no-drag;">
+            <div class="icon-btn" id="editUrlBtn" title="Changer la playlist" data-i18n-title="player.changePlaylist" style="font-size:12px;">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </div>
+            <div class="live-indicator">
+                <div class="dot"></div><span>ONLINE</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAYER -->
+    <div id="player-wrapper">
+        <div id="player-container"></div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="controls glass-panel">
+        <div class="icon-btn" id="prevBtn" title="Précédent" data-i18n-title="player.previous"><i class="fa-solid fa-backward-step"></i></div>
+        <div class="icon-btn" id="nextBtn" title="Suivant" data-i18n-title="player.next"><i class="fa-solid fa-forward-step"></i></div>
+        <div class="divider"></div>
+        <div class="icon-btn" id="muteBtn" style="font-size:18px;">🔊</div>
+        <div class="slider-wrapper">
+            <input type="range" id="volumeSlider" min="0" max="100" value="100">
+            <div class="volume-value" id="volumeText">100%</div>
+        </div>
+        <div class="icon-btn" id="resetUrlBtn" title="Réinitialiser la playlist" data-i18n-title="player.resetPlaylist"
+            style="font-size:11px;color:var(--text-muted);">
+            <i class="fa-solid fa-rotate-left"></i>
+        </div>
+    </div>
+
+    <!-- URL EDITOR OVERLAY -->
+    <div id="url-editor-overlay">
+        <div class="url-editor-card">
+            <div class="url-editor-title" data-i18n-key="player.changePlaylistTitle">Changer la Playlist</div>
+            <div class="url-editor-label" data-i18n-key="player.urlHelp">
+                Colle une URL SoundCloud (track, album, ou playlist).<br>
+                La sélection est mémorisée dans l'extension.
+            </div>
+            <input type="url" id="url-input" placeholder="https://soundcloud.com/artiste/playlist" autocomplete="off"
+                spellcheck="false" />
+            <div id="url-error"></div>
+            <div class="url-editor-actions">
+                <button class="btn btn-ghost" id="cancel-url-btn" data-i18n-key="common.cancel">Annuler</button>
+                <button class="btn btn-primary" id="confirm-url-btn" data-i18n-key="player.apply">Appliquer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="player.js"></script>
+</body>
+
+</html>

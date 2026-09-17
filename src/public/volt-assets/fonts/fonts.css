@@ -1,0 +1,9 @@
+/* VOLT local-safe font fallback.
+   Do not reference remote or missing font binaries in store builds. */
+:root {
+  --volt-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --volt-font-ui: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+body, button, input, textarea, select {
+  font-family: var(--volt-font-body);
+}

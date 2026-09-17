@@ -1,0 +1,1 @@
+'serviceWorker'in navigator&&window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').then(e=>{console.log('SW registered for WebGL game')}).catch(e=>{console.log('SW failed:',e)})});

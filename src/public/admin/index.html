@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Volt Admin Dashboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #09090f;
+      color: #e8e8f0;
+      font-family: 'Inter', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: radial-gradient(ellipse at 50% 0%, rgba(124,92,252,0.08) 0%, transparent 60%);
+    }
+
+    #login-screen, #dashboard {
+      display: none;
+    }
+    
+    #login-screen.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .login-box {
+      background: #13131f;
+      border: 1px solid #1e1e30;
+      border-radius: 14px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+
+    h1 { font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+    h1 span { color: #ff5c8d; }
+    p.sub { font-size: 0.85rem; color: #8a8a9a; margin-bottom: 1.5rem; }
+
+    input {
+      width: 100%;
+      background: #0a0a10;
+      border: 1px solid #2a2a3a;
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 1rem;
+    }
+    input:focus { border-color: #ff5c8d; }
+
+    button {
+      background: #ff5c8d;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:hover { background: #e04a7a; }
+    button:active { transform: scale(0.98); }
+    button.btn-full { width: 100%; padding: 0.8rem; font-size: 0.9rem; margin-top: 0.5rem; }
+
+    /* Dashboard */
+    #dashboard.active {
+      display: block;
+      padding: 2rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #1e1e30;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: #13131f;
+      border: 1px solid #1e1e30;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .stat-card h3 { font-size: 0.85rem; color: #8a8a9a; font-weight: 500; margin-bottom: 0.5rem; }
+    .stat-card p { font-size: 1.8rem; font-weight: 700; color: #fff; }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      gap: 1rem;
+    }
+    .toolbar input { max-width: 300px; margin-bottom: 0; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #13131f;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #1e1e30;
+    }
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      font-size: 0.85rem;
+      border-bottom: 1px solid #1e1e30;
+    }
+    th {
+      background: #0a0a10;
+      color: #8a8a9a;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 0.75rem;
+    }
+    td.key-col { font-family: monospace; color: #b4a3ff; letter-spacing: 1px; }
+    
+    .badge {
+      padding: 0.3rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .badge.unused { background: rgba(255, 255, 255, 0.1); color: #fff; }
+    .badge.active { background: rgba(46, 213, 115, 0.15); color: #2ed573; }
+    .badge.deleted { background: rgba(255, 71, 87, 0.15); color: #ff4757; }
+    .badge.expired { background: rgba(255, 165, 2, 0.15); color: #ffa502; }
+
+    .actions { display: flex; gap: 0.5rem; }
+    .btn-reset { background: #3a3a4a; color: #fff; }
+    .btn-reset:hover { background: #4a4a5a; }
+    .btn-expire { background: rgba(255, 165, 2, 0.2); color: #ffa502; }
+    .btn-expire:hover { background: rgba(255, 165, 2, 0.3); }
+    .btn-delete { background: rgba(255, 71, 87, 0.2); color: #ff4757; }
+    .btn-delete:hover { background: rgba(255, 71, 87, 0.3); }
+
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 9, 15, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      font-size: 1.2rem;
+      font-weight: 600;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Écran de connexion Admin -->
+  <div id="login-screen" class="active">
+    <div class="login-box">
+      <h1>Volt <span>Admin</span></h1>
+      <p class="sub">Advanced Key Management</p>
+      <input type="password" id="admin-password" placeholder="Admin Password" />
+      <button class="btn-full" onclick="login()">Access Dashboard</button>
+      <div id="login-error" style="color:#ff4757; font-size:0.8rem; margin-top:1rem; display:none;"></div>
+    </div>
+  </div>
+
+  <!-- Dashboard Principal -->
+  <div id="dashboard">
+    <header>
+      <h1>Volt <span>Dashboard</span></h1>
+      <button onclick="logout()" style="background: #2a2a3a;">Logout</button>
+    </header>
+
+    <div class="stats">
+      <div class="stat-card">
+        <h3>Total Keys</h3>
+        <p id="stat-total">-</p>
+      </div>
+      <div class="stat-card">
+        <h3>Active (In Use)</h3>
+        <p id="stat-active">-</p>
+      </div>
+      <div class="stat-card">
+        <h3>Unused</h3>
+        <p id="stat-unused">-</p>
+      </div>
+      <div class="stat-card">
+        <h3>Banned / Deleted</h3>
+        <p id="stat-banned">-</p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input type="text" id="search-input" placeholder="Search by Key or HWID..." onkeyup="filterTable()" />
+      <button onclick="fetchKeys()" style="background: #7c5cfc;">Refresh Data</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>License Key</th>
+          <th>Map</th>
+          <th>Status</th>
+          <th>Linked HWID</th>
+          <th>Expires In</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="keys-tbody">
+        <!-- Rempli en JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <div class="loading-overlay" id="loader">Loading database...</div>
+
+  <script>
+    let adminPass = sessionStorage.getItem('volt_admin_pass') || '';
+    let globalKeys = [];
+
+    if (adminPass) {
+      showDashboard();
+    }
+
+    function login() {
+      const p = document.getElementById('admin-password').value;
+      if(!p) return;
+      adminPass = p;
+      sessionStorage.setItem('volt_admin_pass', p);
+      showDashboard();
+    }
+
+    function logout() {
+      adminPass = '';
+      sessionStorage.removeItem('volt_admin_pass');
+      document.getElementById('dashboard').classList.remove('active');
+      document.getElementById('login-screen').classList.add('active');
+    }
+
+    function showDashboard() {
+      document.getElementById('login-screen').classList.remove('active');
+      document.getElementById('dashboard').classList.add('active');
+      fetchKeys();
+    }
+
+    async function fetchKeys() {
+      document.getElementById('loader').style.display = 'flex';
+      try {
+        const res = await fetch('/api/admin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: adminPass, action: 'list' })
+        });
+        const data = await res.json();
+        
+        if (res.ok && data.success) {
+          globalKeys = data.keys;
+          renderTable();
+          updateStats();
+        } else {
+          alert('Auth failed or error: ' + data.error);
+          logout();
+        }
+      } catch(e) {
+        alert('Network Error');
+      }
+      document.getElementById('loader').style.display = 'none';
+    }
+
+    function updateStats() {
+      document.getElementById('stat-total').textContent = globalKeys.length;
+      document.getElementById('stat-active').textContent = globalKeys.filter(k => k.status === 'active' && (!k.expiresAt || k.expiresAt > Date.now())).length;
+      document.getElementById('stat-unused').textContent = globalKeys.filter(k => k.status === 'unused').length;
+      document.getElementById('stat-banned').textContent = globalKeys.filter(k => k.status === 'deleted').length;
+    }
+
+    function formatTimeLeft(expiresAt) {
+      if (!expiresAt) return 'Never';
+      const diff = expiresAt - Date.now();
+      if (diff <= 0) return 'Expired';
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      return `${days} days`;
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('keys-tbody');
+      tbody.innerHTML = '';
+      const filter = document.getElementById('search-input').value.toLowerCase();
+
+      globalKeys.forEach(k => {
+        if (filter && !k.key.toLowerCase().includes(filter) && !(k.hwid && k.hwid.toLowerCase().includes(filter))) {
+          return; // skip if not match
+        }
+
+        let realStatus = k.status;
+        if (realStatus === 'active' && k.expiresAt && k.expiresAt < Date.now()) {
+          realStatus = 'expired';
+        }
+
+        const tr = document.createElement('tr');
+        
+        let actionButtons = '';
+        if (realStatus === 'unused') {
+          actionButtons = `<button class="btn-delete" onclick="doAction('${k.key}', 'delete')">Ban</button>`;
+        } else if (realStatus === 'deleted') {
+          actionButtons = `<button class="btn-reset" onclick="doAction('${k.key}', 'reset')">Unban (Reset)</button>`;
+        } else {
+          actionButtons = `
+            <button class="btn-reset" onclick="doAction('${k.key}', 'reset')">Reset</button>
+            <button class="btn-expire" onclick="doAction('${k.key}', 'expire', 30)">+30d</button>
+            <button class="btn-delete" onclick="doAction('${k.key}', 'delete')">Ban</button>
+          `;
+        }
+
+        tr.innerHTML = `
+          <td class="key-col">${k.key}</td>
+          <td>${k.map}</td>
+          <td><span class="badge ${realStatus}">${realStatus}</span></td>
+          <td style="color:#8a8a9a;">${k.hwid || 'None'}</td>
+          <td>${formatTimeLeft(k.expiresAt)}</td>
+          <td class="actions">${actionButtons}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterTable() {
+      renderTable();
+    }
+
+    async function doAction(key, action, days=0) {
+      if (!confirm(`Are you sure you want to ${action} key ${key}?`)) return;
+
+      document.getElementById('loader').style.display = 'flex';
+      try {
+        const res = await fetch('/api/admin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: adminPass, action, key, days })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          await fetchKeys(); // refresh
+        } else {
+          alert('Error: ' + data.error);
+        }
+      } catch(e) {
+        alert('Network Error');
+      }
+      document.getElementById('loader').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Volt Maps</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0e0e1a;
+      color: #e8e8f0;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background-image: radial-gradient(ellipse at 20% 20%, rgba(124,92,252,0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 80%, rgba(91,63,212,0.06) 0%, transparent 60%);
+    }
+
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #fff;
+      margin-bottom: 0.4rem;
+    }
+
+    h1 span { color: #7c5cfc; }
+
+    .sub {
+      color: #4a4a6a;
+      margin: 0 0 2.5rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.3px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1rem;
+      width: 100%;
+      max-width: 820px;
+    }
+
+    .card {
+      background: #13131f;
+      border: 1px solid #1e1e30;
+      border-radius: 14px;
+      padding: 1.75rem 1.5rem;
+      text-align: center;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(124,92,252,0.08) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: #7c5cfc;
+      box-shadow: 0 8px 32px rgba(124,92,252,0.15);
+    }
+
+    .card:hover::before { opacity: 1; }
+
+    .card h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      color: #fff;
+    }
+
+    .card p {
+      font-size: 0.75rem;
+      color: #4a4a6a;
+      line-height: 1.4;
+    }
+
+    footer {
+      margin-top: 2.5rem;
+      color: #2a2a3a;
+      font-size: 0.72rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    footer span { color: #7c5cfc; }
+
+    .category-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 2.5rem 0 1rem;
+      width: 100%;
+      max-width: 820px;
+      text-align: left;
+    }
+    .category-title span { color: #7c5cfc; }
+    
+    .tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 820px;
+    }
+    
+    .tab {
+      background: #13131f;
+      border: 1px solid #1e1e30;
+      color: #8a8aaa;
+      padding: 0.6rem 1.5rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      font-family: inherit;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+    
+    .tab:hover {
+      border-color: #7c5cfc;
+      color: #fff;
+    }
+    
+    .tab.active {
+      background: rgba(124, 92, 252, 0.15);
+      border-color: #7c5cfc;
+      color: #fff;
+      box-shadow: 0 0 15px rgba(124, 92, 252, 0.2);
+    }
+
+    .category-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Toggle Switch Styles */
+    .settings-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+      gap: 12px;
+      background: #13131f;
+      padding: 0.75rem 1.5rem;
+      border-radius: 30px;
+      border: 1px solid #1e1e30;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 22px;
+    }
+    .switch input { 
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #1e1e30;
+      transition: .3s;
+      border-radius: 34px;
+      border: 1px solid #2a2a3a;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #8a8aaa;
+      transition: .3s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: rgba(124, 92, 252, 0.15);
+      border-color: #7c5cfc;
+    }
+    input:checked + .slider:before {
+      transform: translateX(22px);
+      background-color: #7c5cfc;
+      box-shadow: 0 0 10px rgba(124, 92, 252, 0.8);
+    }
+
+    .lang-btn {
+        padding: 12px;
+        background: #1e1e30;
+        border: 1px solid #2a2a3a;
+        border-radius: 8px;
+        color: #fff;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+      
+      .lang-btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 50% 0%, rgba(124,92,252,0.15) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        z-index: -1;
+      }
+
+      .lang-btn:hover {
+        transform: translateY(-2px);
+        border-color: #7c5cfc;
+        box-shadow: 0 4px 20px rgba(124,92,252,0.25);
+      }
+      
+      .lang-btn:hover::before { opacity: 1; }
+  </style>
+</head>
+<body>
+  <!-- Language Selector Modal -->
+  <div id="lang-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 99999; align-items: center; justify-content: center; flex-direction: column;">
+    <div style="background: #13131f; padding: 2rem; border-radius: 16px; border: 1px solid #1e1e30; text-align: center; max-width: 400px; width: 90%;">
+      <h2 style="color: #fff; margin-bottom: 1.5rem; font-size: 1.5rem;">Select Language<br><span style="color: #7c5cfc; font-size: 1rem;">Choisissez votre langue</span></h2>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button class="lang-btn" onclick="selectLang('fr')"><div style="display: flex; align-items: center; gap: 12px; width: 120px; text-align: left;"><img src="https://flagcdn.com/w40/fr.png" width="24" style="border-radius: 3px;" alt="FR"> <span>Français</span></div></button>
+        <button class="lang-btn" onclick="selectLang('en')"><div style="display: flex; align-items: center; gap: 12px; width: 120px; text-align: left;"><img src="https://flagcdn.com/w40/gb.png" width="24" style="border-radius: 3px;" alt="GB"> <span>English</span></div></button>
+        <button class="lang-btn" onclick="selectLang('de')"><div style="display: flex; align-items: center; gap: 12px; width: 120px; text-align: left;"><img src="https://flagcdn.com/w40/de.png" width="24" style="border-radius: 3px;" alt="DE"> <span>Deutsch</span></div></button>
+        <button class="lang-btn" onclick="selectLang('pt')"><div style="display: flex; align-items: center; gap: 12px; width: 120px; text-align: left;"><img src="https://flagcdn.com/w40/pt.png" width="24" style="border-radius: 3px;" alt="PT"> <span>Português</span></div></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Globe Button -->
+  <button onclick="document.getElementById('lang-overlay').style.display='flex'" style="position: absolute; top: 20px; right: 20px; background: #13131f; border: 1px solid #1e1e30; border-radius: 50%; width: 45px; height: 45px; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; transition: 0.2s; z-index: 100;">🌐</button>
+  
+  <!-- Discord Button -->
+  <a href="https://discord.gg/ssnc" target="_blank" style="position: absolute; top: 20px; right: 75px; background: #5865F2; border: 1px solid #1e1e30; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; color: #fff; transition: transform 0.2s, box-shadow 0.2s; z-index: 100; text-decoration: none;" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 15px rgba(88, 101, 242, 0.6)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+    <svg width="22" height="22" viewBox="0 0 127.14 96.36" fill="#fff"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.31,60,73.31,53s5-12.74,11.43-12.74S96.33,46,96.22,53,91.08,65.69,84.69,65.69Z"/></svg>
+  </a>
+
+  <h1>Volt <span>Maps</span></h1>
+  <p class="sub" data-i18n="idx_sub">Subway Surfers - Maps d'entraînement</p>
+
+  <div class="settings-container">
+    <span style="color: #8a8aaa; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.5px;" data-i18n="idx_ext">EXTENSION INTÉGRÉE</span>
+    <label class="switch">
+      <input type="checkbox" id="nocoinToggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <nav class="tabs">
+    <button class="tab active" onclick="showCategory('original', this)" data-i18n="idx_tab_orig">Original</button>
+    <button class="tab" onclick="showCategory('training', this)" data-i18n="idx_tab_train">Training</button>
+    <button class="tab" onclick="showCategory('cheat', this)" data-i18n="idx_tab_cheat">Cheat</button>
+  </nav>
+
+  <div class="category-section" id="cat-original">
+  <h2 class="category-title"><span data-i18n="idx_cat_orig" style="color: inherit;">Map Original</span></h2>
+  <div class="grid">
+    <a class="card" href="/barcelona.html"><h2>Barcelona Original</h2><p data-i18n="idx_desc_orig">Original map.</p></a>
+    <a class="card" href="/beijing.html"><h2>Beijing Original</h2><p data-i18n="idx_desc_orig">Original map.</p></a>
+    <a class="card" href="/berlin.html"><h2>Berlin Original</h2><p data-i18n="idx_desc_orig">Original map.</p></a>
+    <a class="card" href="/buenosaires.html"><h2>Buenos Aires Original</h2><p data-i18n="idx_desc_orig">Original map.</p></a>
+    <a class="card" href="/havana.html"><h2>Havana Original</h2><p data-i18n="idx_desc_orig">Original map.</p></a>
+    <a class="card" href="/houston.html"><h2>Houston Original</h2><p data-i18n="idx_desc_orig">Original map.</p></a>
+    <a class="card" href="/iceland.html"><h2>Iceland Original</h2><p data-i18n="idx_desc_orig">Original map.</p></a>
+    <a class="card" href="/london.html"><h2>London Original</h2><p data-i18n="idx_desc_orig">Original map.</p></a>
+    <a class="card" href="/mexico.html"><h2>Mexico Original</h2><p data-i18n="idx_desc_orig">Original map.</p></a>
+    <a class="card" href="/monaco.html"><h2>Monaco Original</h2><p data-i18n="idx_desc_orig">Original map.</p></a>
+    <a class="card" href="/neworleans.html"><h2>New Orleans Original</h2><p data-i18n="idx_desc_orig">Original map.</p></a>
+    <a class="card" href="/saintpetersburg.html"><h2>Saint Petersburg Original</h2><p data-i18n="idx_desc_orig">Original map.</p></a>
+    <a class="card" href="/sanfrancisco.html"><h2>San Francisco Original</h2><p data-i18n="idx_desc_orig">Original map.</p></a>
+    <a class="card" href="/winterholiday.html"><h2>Winter Holiday Original</h2><p data-i18n="idx_desc_orig">Original map.</p></a>
+    <a class="card" href="/zurich.html"><h2>Zurich Original</h2><p data-i18n="idx_desc_orig">Original map.</p></a>
+  </div>
+  </div>
+
+  <div class="category-section" id="cat-training" style="display: none;">
+  <h2 class="category-title"><span data-i18n="idx_cat_train" style="color: inherit;">Map Training</span></h2>
+  <div class="grid">
+    <a class="card" href="/barcelona-training.html?mode=training"><h2>Barcelona Training</h2><p data-i18n="idx_desc_train">Map d'entrainement.</p></a>
+    <a class="card" href="/beijing-training.html?mode=training"><h2>Beijing Training</h2><p data-i18n="idx_desc_train">Map d'entrainement.</p></a>
+    <a class="card" href="/berlin-training.html?mode=training"><h2>Berlin Training</h2><p data-i18n="idx_desc_train">Map d'entrainement.</p></a>
+    <a class="card" href="/buenosaires-training.html?mode=training"><h2>Buenos Aires Training</h2><p data-i18n="idx_desc_train">Map d'entrainement.</p></a>
+    <a class="card" href="/havana-training.html?mode=training"><h2>Havana Training</h2><p data-i18n="idx_desc_train">Map d'entrainement.</p></a>
+    <a class="card" href="/houston-training.html?mode=training"><h2>Houston Training</h2><p data-i18n="idx_desc_train">Map d'entrainement.</p></a>
+    <a class="card" href="/iceland-training.html?mode=training"><h2>Iceland Training</h2><p data-i18n="idx_desc_train">Map d'entrainement.</p></a>
+    <a class="card" href="/london-training.html?mode=training"><h2>London Training</h2><p data-i18n="idx_desc_train">Map d'entrainement.</p></a>
+    <a class="card" href="/mexico-training.html?mode=training"><h2>Mexico Training</h2><p data-i18n="idx_desc_train">Map d'entrainement.</p></a>
+    <a class="card" href="/monaco-training.html?mode=training"><h2>Monaco Training</h2><p data-i18n="idx_desc_train">Map d'entrainement.</p></a>
+    <a class="card" href="/neworleans-training.html?mode=training"><h2>New Orleans Training</h2><p data-i18n="idx_desc_train">Map d'entrainement.</p></a>
+    <a class="card" href="/saintpetersburg-training.html?mode=training"><h2>Saint Petersburg Training</h2><p data-i18n="idx_desc_train">Map d'entrainement.</p></a>
+    <a class="card" href="/sanfrancisco-training.html?mode=training"><h2>San Francisco Training</h2><p data-i18n="idx_desc_train">Map d'entrainement.</p></a>
+    <a class="card" href="/winterholiday-training.html?mode=training"><h2>Winter Holiday Training</h2><p data-i18n="idx_desc_train">Map d'entrainement.</p></a>
+    <a class="card" href="/zurich-training.html?mode=training"><h2>Zurich Training</h2><p data-i18n="idx_desc_train">Map d'entrainement.</p>    </a>
+  </div>
+  </div>
+
+  <div class="category-section" id="cat-cheat" style="display: none;">
+    <h2 class="category-title"><span data-i18n="idx_cat_cheat" style="color: inherit;">Map Cheat</span></h2>
+    <div class="grid">
+    <a class="card" href="/beijing-noimpo/">
+      <h2>Beijing No Impossible</h2>
+      <p data-i18n="idx_desc_noimpo">Impossible to get an impossible pattern.</p>
+    </a>
+    <a class="card" href="/beijing-reduced-impo/">
+      <h2>Beijing reduced impo luck</h2>
+      <p data-i18n="idx_desc_redimpo">Reduced chance of getting an impossible pattern.</p>
+    </a>
+  </div>
+  </div>
+
+  <footer>
+    Volt X AIyzoxX <span>·</span> Subway Surfers Training Maps
+  </footer>
+
+  <script>
+    function showCategory(categoryId, btn) {
+      // Update active tab
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Show/Hide sections
+      document.querySelectorAll('.category-section').forEach(section => {
+        if (categoryId === 'all') {
+          section.style.display = 'flex';
+        } else {
+          if (section.id === 'cat-' + categoryId) {
+            section.style.display = 'flex';
+          } else {
+            section.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('nocoinToggle');
+      
+      // Default state: if not explicitly set to 'false', it's enabled
+      if (localStorage.getItem('nocoinExtensionEnabled') === 'false') {
+        toggle.checked = false;
+      } else {
+        toggle.checked = true;
+        localStorage.setItem('nocoinExtensionEnabled', 'true');
+      }
+      
+      toggle.addEventListener('change', (e) => {
+        localStorage.setItem('nocoinExtensionEnabled', e.target.checked ? 'true' : 'false');
+      });
+
+      // Language Overlay Logic
+      if (!localStorage.getItem('langChosen')) {
+        document.getElementById('lang-overlay').style.display = 'flex';
+      }
+    });
+
+    window.selectLang = function(lang) {
+      if (window.i18n) {
+        window.i18n.setLang(lang);
+      } else {
+        localStorage.setItem('lang', lang);
+      }
+      localStorage.setItem('langChosen', 'true');
+      document.getElementById('lang-overlay').style.display = 'none';
+    };
+  </script>
+  <script src="js/i18n.js"></script>
+</body>
+</html>
+

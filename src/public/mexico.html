@@ -1,0 +1,32 @@
+<!doctype html> <html lang="pt-br"> <head> <meta charset="utf-8"/> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,shrink-to-fit=no"/> <title>Subway Surfers: Mexico | Voltmaps</title> <link rel="icon" href="icon/favicon.ico" type="image/x-icon"> <link rel="shortcut icon" href="icon/favicon.ico" type="image/x-icon"> <link rel="stylesheet" href="css/save-popup.css"> 
+<!-- Gaming Tools Suite -->
+<link rel="stylesheet" href="css/nocoin-modal.css">
+<script src="js/nocoin-storage.js"></script>
+<script src="js/nocoin-content.js"></script>
+<script src="js/poki-stubs.js"></script> <script src="js/subwaySurf14.08.js"></script> <script> const urlParams = new URLSearchParams(window.location.search);
+        const isOriginal = urlParams.get('mode') === 'original';
+
+        window.config = {
+            loader: "unity",
+            debug: false,
+            maxRatio: 16 / 9,
+            minRatio: 9 / 16,
+            title: isOriginal ? "Mexico Original Map | Voltmaps" : "Mexico Training Map | Voltmaps",
+            unityVersion: "2019.4.18f1",
+            unityWebglBuildUrl: isOriginal
+                ? "/Build/7/7_1.json"
+                : "/Build/7/7.json",
+            fileSize: 42,
+        }; </script> </head> <body> <script src="js/poki-stubs.js"></script> <script src="js/master-loader.js"></script> <script src="js/settings.js"></script> <script> const SW_ENABLED = true;
+
+        if ('serviceWorker' in navigator && SW_ENABLED) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(reg => {
+                    console.log('Service Worker registered for Mexico');
+                }).catch(err => {
+                    console.log('SW registration failed:', err);
+                });
+            });
+        } else if (!SW_ENABLED) {
+            console.log('Service Worker is DISABLED for local development');
+        } </script> </body> </html>

@@ -1,0 +1,98 @@
+[
+  {
+    "id": "zurich",
+    "image": "images/zurich.jpg",
+    "nameKey": "zurich",
+    "descriptionKey": null
+  },
+  {
+    "id": "barcelona",
+    "image": "images/barcelona.jpg",
+    "nameKey": "barcelona",
+    "descriptionKey": "only3rows"
+  },
+  {
+    "id": "houston",
+    "image": "images/houston.jpg",
+    "nameKey": "houston",
+    "descriptionKey": "only3rows1rowObs"
+  },
+  {
+    "id": "miami",
+    "image": "images/miami.jpg",
+    "nameKey": "miami",
+    "descriptionKey": "only3rows1rowObs"
+  },
+  {
+    "id": "berlin",
+    "image": "images/berlin.jpg",
+    "nameKey": "berlin",
+    "descriptionKey": "only1rowObs"
+  },
+  {
+    "id": "buenosaires",
+    "image": "images/buenosaires.jpg",
+    "nameKey": "buenosaires",
+    "descriptionKey": null
+  },
+  {
+    "id": "mexico",
+    "image": "images/mexico.jpg",
+    "nameKey": "mexico",
+    "descriptionKey": "only3rows"
+  },
+  {
+    "id": "beijing",
+    "image": "images/beijing.jpg",
+    "nameKey": "beijing",
+    "descriptionKey": null
+  },
+  {
+    "id": "london",
+    "image": "images/london.jpg",
+    "nameKey": "london",
+    "descriptionKey": null
+  },
+  {
+    "id": "iceland",
+    "image": "images/iceland.jpg",
+    "nameKey": "iceland",
+    "descriptionKey": null
+  },
+  {
+    "id": "havana",
+    "image": "images/havana.jpg",
+    "nameKey": "havana",
+    "descriptionKey": null
+  },
+  {
+    "id": "neworleans",
+    "image": "images/neworleans.jpg",
+    "nameKey": "neworleans",
+    "descriptionKey": null
+  },
+  {
+    "id": "winterholiday",
+    "image": "images/winterholiday.jpg",
+    "nameKey": "winterholiday",
+    "descriptionKey": "only1rowObs"
+  },
+  {
+    "id": "sanfrancisco",
+    "image": "images/sanfrancisco.jpg",
+    "nameKey": "sanfrancisco",
+    "descriptionKey": "only1rowObs"
+  },
+  {
+    "id": "saintpetersburg",
+    "image": "images/saintpetersburg.jpg",
+    "nameKey": "saintpetersburg",
+    "descriptionKey": null
+  },
+  {
+    "id": "monaco",
+    "image": "images/monaco.jpg",
+    "nameKey": "monaco",
+    "descriptionKey": "only1rowObs"
+  }
+]

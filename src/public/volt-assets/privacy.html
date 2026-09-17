@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Politique de confidentialité — Volt Extension</title>
+<meta name="description" content="Politique de confidentialité de l'extension Chrome / Edge Volt — données collectées, base légale, durées de conservation, droits RGPD, contact.">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #666;
+    --border: #e5e5e5;
+    --accent: #6366f1;
+    --code-bg: #f4f4f5;
+    --table-stripe: #fafafa;
+    --th-bg: #f9fafb;
+    --warn-bg: #fff7ed;
+    --warn-fg: #9a3412;
+    --warn-border: #fdba74;
+    --ok-bg: #f0fdf4;
+    --ok-fg: #166534;
+    --ok-border: #86efac;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #8b5cf6;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --th-bg: #1c2128;
+      --warn-bg: #2a1a0d;
+      --warn-fg: #fdba74;
+      --warn-border: #7c2d12;
+      --ok-bg: #0d2818;
+      --ok-fg: #86efac;
+      --ok-border: #166534;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+  header.hero {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 32px;
+    margin-bottom: 32px;
+  }
+  h1 {
+    font-size: 2.2rem;
+    margin: 0 0 8px;
+    letter-spacing: -0.02em;
+  }
+  .hero p.lead {
+    color: var(--muted);
+    margin: 8px 0 0;
+    font-size: 1.05rem;
+  }
+  .hero .meta {
+    margin-top: 16px;
+    font-size: 0.9rem;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .hero .meta span { display: inline-flex; gap: 6px; align-items: center; }
+  .hero .meta strong { color: var(--fg); font-weight: 600; }
+  nav.toc {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 40px;
+  }
+  nav.toc h2 {
+    margin: 0 0 10px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  nav.toc ol { margin: 0; padding-left: 20px; columns: 2; column-gap: 24px; }
+  nav.toc li { margin: 4px 0; break-inside: avoid; }
+  nav.toc a { color: var(--accent); text-decoration: none; font-size: 0.95rem; }
+  nav.toc a:hover { text-decoration: underline; }
+  h2 {
+    margin-top: 48px;
+    margin-bottom: 12px;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+    scroll-margin-top: 24px;
+  }
+  h3 { margin-top: 32px; margin-bottom: 8px; font-size: 1.15rem; }
+  p, li { font-size: 1rem; }
+  strong { font-weight: 650; }
+  a { color: var(--accent); }
+  code {
+    background: var(--code-bg);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: "SFMono-Regular", "Consolas", "Liberation Mono", Menlo, monospace;
+    font-size: 0.92em;
+  }
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: var(--code-bg);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin: 20px 0;
+  }
+  .callout.warn { border-color: var(--warn-border); background: var(--warn-bg); color: var(--warn-fg); }
+  .callout.ok { border-color: var(--ok-border); background: var(--ok-bg); color: var(--ok-fg); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.95rem;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--th-bg); font-weight: 650; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  ul.tight li, ol.tight li { margin: 2px 0; }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 56px 0 32px; }
+  footer.legal {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .pill {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    margin-left: 6px;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="hero">
+    <h1>Politique de confidentialité — Volt Extension</h1>
+    <p class="lead">Extension Chrome / Edge pour les performances en jeu, le chat communautaire, les classements et les duels 1v1 sur les sites partenaires.</p>
+    <div class="meta">
+      <span>Version : <strong>21.0.0</strong></span>
+      <span>Dernière mise à jour : <strong>16 mai 2026</strong></span>
+      <span>Juridiction : <strong>RGPD (UE) / LIL (France)</strong></span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="Sommaire">
+    <h2>Sommaire</h2>
+    <ol>
+      <li><a href="#controller">Responsable du traitement</a></li>
+      <li><a href="#summary">Résumé en clair</a></li>
+      <li><a href="#data">Données collectées</a></li>
+      <li><a href="#basis">Base légale par finalité</a></li>
+      <li><a href="#retention">Durées de conservation</a></li>
+      <li><a href="#transfer">Localisation &amp; transferts</a></li>
+      <li><a href="#thirdparty">Tiers &amp; sous-traitants</a></li>
+      <li><a href="#rights">Vos droits RGPD</a></li>
+      <li><a href="#security">Sécurité</a></li>
+      <li><a href="#cookies">Stockage local &amp; cookies</a></li>
+      <li><a href="#minors">Mineurs</a></li>
+      <li><a href="#changes">Modifications</a></li>
+      <li><a href="#contact">Contact &amp; réclamations</a></li>
+    </ol>
+  </nav>
+
+  <section id="controller">
+    <h2>1. Responsable du traitement</h2>
+    <p>
+      Le traitement des données est effectué par&nbsp;:
+    </p>
+    <ul class="tight">
+      <li><strong>Nom&nbsp;:</strong> Ben Yedder Youssef <span class="pill">personne physique</span></li>
+      <li><strong>Pays&nbsp;:</strong> France</li>
+      <li><strong>Email RGPD&nbsp;:</strong> <a href="mailto:privacy@webtvmedia.net">privacy@webtvmedia.net</a></li>
+      <li><strong>Site&nbsp;:</strong> <a href="https://webtvmedia.net">webtvmedia.net</a></li>
+    </ul>
+    <p class="callout">
+      L'adresse postale exacte peut être communiquée sur demande légitime
+      (autorité de contrôle, procédure judiciaire, exercice formel d'un droit
+      RGPD nécessitant un envoi recommandé). Cette mesure protège un développeur
+      indépendant d'attaques ciblées (swatting, harcèlement) déjà documentées
+      dans la communauté concernée.
+    </p>
+  </section>
+
+  <section id="summary">
+    <h2>2. Résumé en clair</h2>
+    <div class="callout ok">
+      <strong>Nous collectons le minimum nécessaire</strong> pour faire fonctionner le jeu, le chat, l'anti-triche et la modération. Aucune publicité, aucune revente de données, aucun tracker tiers. Le compte est supprimable à tout moment depuis l'extension (suppression différée de 30&nbsp;jours, annulable).
+    </div>
+    <p>Ce que nous traitons&nbsp;:</p>
+    <ul class="tight">
+      <li>Votre <strong>email Google</strong> (uniquement si vous choisissez la connexion Google) et votre <strong>pseudo</strong>.</li>
+      <li>Votre <strong>adresse IP publique</strong> (collectée côté serveur, utilisée pour la modération et la prévention des abus).</li>
+      <li>Un <strong>identifiant matériel pseudonymisé («&nbsp;HWID&nbsp;»)</strong> — empreinte SHA-256 dérivée de votre navigateur, langue, résolution d'écran, nombre de cœurs CPU, RAM et plateforme. Utilisé pour l'anti-triche et les bans matériels.</li>
+      <li>Votre <strong>activité de jeu</strong> (scores, runs, duels, classement Elo, transactions de crédits virtuels).</li>
+      <li>Vos <strong>messages de chat</strong> (global, équipe, privés) pour la modération et la communauté.</li>
+      <li>Vos <strong>amis, équipes, comptes liés</strong> (Discord, Twitter, Twitch — uniquement si vous les renseignez vous-même).</li>
+    </ul>
+    <p>Ce que nous <strong>ne</strong> collectons <strong>jamais</strong>&nbsp;:</p>
+    <ul class="tight">
+      <li>Le contenu des autres pages que vous visitez (l'extension n'a accès qu'aux 4 sites de jeu déclarés dans le manifeste).</li>
+      <li>Vos mots de passe (l'authentification passe par Google OAuth, jamais par nous).</li>
+      <li>Vos frappes clavier, votre presse-papiers, vos micros / caméras.</li>
+      <li>Vos cookies tiers ou votre historique de navigation.</li>
+      <li>Vos données biométriques, vos données de santé, vos opinions politiques ou religieuses.</li>
+    </ul>
+  </section>
+
+  <section id="data">
+    <h2>3. Données collectées en détail</h2>
+    <table>
+      <thead>
+        <tr><th>Catégorie</th><th>Données précises</th><th>Source</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Identité du compte</strong></td>
+          <td>email Google, pseudo, avatar, grade, identifiant Supabase (UUID)</td>
+          <td>Google OAuth + saisie utilisateur</td>
+        </tr>
+        <tr>
+          <td><strong>Identifiants techniques</strong></td>
+          <td>adresse IP publique (<code>users.last_ip</code>), HWID SHA-256 (<code>users.hwid</code>), fournisseur d'authentification</td>
+          <td>requête HTTP + APIs navigateur (<code>userAgent</code>, <code>navigator.language</code>, <code>screen.width/height</code>, <code>hardwareConcurrency</code>, <code>deviceMemory</code>, <code>platform</code>)</td>
+        </tr>
+        <tr>
+          <td><strong>Activité de jeu</strong></td>
+          <td>scores, historique de runs, Elo, duels, achievements, crédits/tokens virtuels et transactions, cosmétiques possédés et actifs</td>
+          <td>extension lors de votre jeu</td>
+        </tr>
+        <tr>
+          <td><strong>Communications</strong></td>
+          <td>messages chat global, chat équipe, messages privés, broadcasts modération</td>
+          <td>saisie utilisateur</td>
+        </tr>
+        <tr>
+          <td><strong>Social</strong></td>
+          <td>amis, demandes d'amis, blocages, équipes, invitations, comptes liés Discord/Twitter/Twitch (optionnels)</td>
+          <td>saisie utilisateur</td>
+        </tr>
+        <tr>
+          <td><strong>Modération</strong></td>
+          <td>bans IP, bans HWID, logs de modération, signalements</td>
+          <td>traitements automatiques + actions modérateurs</td>
+        </tr>
+        <tr>
+          <td><strong>Préférences</strong></td>
+          <td>langue, thème, paramètres affichage FPS, son, raccourcis</td>
+          <td>saisie utilisateur (stockée localement)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>3.1 Note sur l'identifiant matériel (HWID)</h3>
+    <p>
+      Le HWID est un hash <strong>SHA-256 non réversible</strong> calculé localement à partir de signaux navigateur. Il ne nous permet pas de retrouver votre matériel d'origine, mais sert d'identifiant persistant pseudonymisé pour&nbsp;:
+    </p>
+    <ul class="tight">
+      <li>détecter les contournements de ban (création de comptes multiples) ;</li>
+      <li>limiter les abus côté anti-triche.</li>
+    </ul>
+    <p>
+      Sous le RGPD, le HWID est qualifié de <strong>donnée à caractère personnel</strong> (identifiant indirect, considérant 30). Sa collecte repose sur l'<em>intérêt légitime</em> du responsable de traitement à protéger l'intégrité du service. Vous pouvez vous y opposer en cessant d'utiliser l'extension ou en demandant la suppression de votre compte.
+    </p>
+
+    <h3>3.2 Note sur l'adresse IP</h3>
+    <p>
+      Votre adresse IP publique est collectée côté serveur lors de votre première session authentifiée (RPC <code>record_my_last_ip</code>). L'IP <strong>permet une approximation de votre localisation</strong> (considérant 30 RGPD). Nous l'utilisons exclusivement pour&nbsp;:
+    </p>
+    <ul class="tight">
+      <li>la modération (bannissement IP, table <code>ip_bans</code>) ;</li>
+      <li>la prévention des abus (rate-limiting, anti-spam) ;</li>
+      <li>la sécurité (détection de connexions suspectes).</li>
+    </ul>
+    <p>Aucun géociblage publicitaire ni revente. Aucune corrélation à une identité hors plateforme.</p>
+  </section>
+
+  <section id="basis">
+    <h2>4. Base légale par finalité</h2>
+    <table>
+      <thead>
+        <tr><th>Finalité</th><th>Base légale RGPD</th><th>Article</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Création de compte, classement, duels, gestion des cosmétiques achetés</td><td>Exécution du contrat (vous nous demandez ce service)</td><td>Art. 6 §1 b)</td></tr>
+        <tr><td>Anti-triche (HWID, signaux <code>SPEEDHACK</code>), modération, prévention des abus</td><td>Intérêt légitime du responsable de traitement</td><td>Art. 6 §1 f)</td></tr>
+        <tr><td>Bannissement IP/HWID après violation des règles</td><td>Intérêt légitime + obligation de moyens vis-à-vis des autres utilisateurs</td><td>Art. 6 §1 f)</td></tr>
+        <tr><td>Connexion via Google OAuth, traitement de l'email</td><td>Consentement explicite (vous cliquez «&nbsp;Se connecter avec Google&nbsp;»)</td><td>Art. 6 §1 a)</td></tr>
+        <tr><td>Chat public, équipes, messages privés</td><td>Consentement (vous choisissez de poster) + exécution du contrat</td><td>Art. 6 §1 a) &amp; b)</td></tr>
+        <tr><td>Logs techniques pour debug et sécurité</td><td>Intérêt légitime</td><td>Art. 6 §1 f)</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Au premier lancement, un <strong>écran de consentement</strong> vous présente ces traitements et vous demande votre accord avant que toute donnée ne quitte votre navigateur. Vous pouvez refuser et désinstaller l'extension sans perte de données (rien n'aura été envoyé).
+    </p>
+  </section>
+
+  <section id="retention">
+    <h2>5. Durées de conservation</h2>
+    <table>
+      <thead>
+        <tr><th>Donnée</th><th>Durée</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Compte actif (profil, scores, amis)</td><td>Tant que vous utilisez l'extension</td></tr>
+        <tr><td>Compte supprimé (soft-delete)</td><td>30 jours <em>(annulable à tout moment durant ces 30 jours via <code>cancel_account_deletion</code>)</em></td></tr>
+        <tr><td>Compte supprimé (hard-delete final)</td><td>Effacé définitivement après 30 jours, hors logs de modération anonymisés conservés pour intégrité</td></tr>
+        <tr><td>Messages de chat public</td><td>90 jours, ensuite purge automatique</td></tr>
+        <tr><td>Messages privés</td><td>180 jours après lecture, ensuite purge automatique</td></tr>
+        <tr><td>Logs de modération (actions, bans)</td><td>2 ans (preuve en cas de litige)</td></tr>
+        <tr><td>Bans IP/HWID</td><td>Durée du ban + 6 mois (preuve)</td></tr>
+        <tr><td>Adresse IP active (<code>last_ip</code>)</td><td>Écrasée à chaque session (pas d'historique conservé)</td></tr>
+        <tr><td>Préférences locales (<code>chrome.storage</code>)</td><td>Tant que l'extension est installée, supprimées à la désinstallation</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="transfer">
+    <h2>6. Localisation des données &amp; transferts hors UE</h2>
+    <p>
+      L'infrastructure backend (instance <strong>Supabase auto-hébergée</strong>) est physiquement située en <strong>France (UE)</strong>. Les données ne quittent <strong>pas</strong> l'Espace économique européen, sauf&nbsp;:
+    </p>
+    <ul class="tight">
+      <li>lors de l'authentification Google OAuth, où Google peut traiter votre email selon sa propre politique (Google est destinataire indépendant, basé aux États-Unis sous accord <em>Data Privacy Framework</em> EU-US) ;</li>
+      <li>si vous suivez un lien externe (PayPal, Discord, etc.) — vous quittez alors notre service et la politique du tiers s'applique.</li>
+    </ul>
+    <p>Aucun autre transfert hors UE n'a lieu.</p>
+  </section>
+
+  <section id="thirdparty">
+    <h2>7. Tiers &amp; sous-traitants</h2>
+    <table>
+      <thead>
+        <tr><th>Tiers</th><th>Rôle</th><th>Données partagées</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Google LLC</strong></td>
+          <td>Fournisseur OAuth (uniquement si vous choisissez «&nbsp;Sign in with Google&nbsp;»)</td>
+          <td>email Google, identifiant OAuth</td>
+        </tr>
+        <tr>
+          <td><strong>Supabase (auto-hébergé)</strong></td>
+          <td>Base de données &amp; backend, hébergé sur infrastructure contrôlée par le responsable du traitement, en France</td>
+          <td>toutes les données de compte / jeu / chat</td>
+        </tr>
+        <tr>
+          <td><strong>Netlify</strong></td>
+          <td>Hébergement de cette politique de confidentialité (page statique, aucun traitement de données utilisateur)</td>
+          <td>Aucune donnée utilisateur — seules requêtes HTTP standards (logs serveur Netlify, voir leur politique)</td>
+        </tr>
+        <tr>
+          <td><strong>PayPal, Discord, Twitch, X (Twitter), SoundCloud, YouTube</strong></td>
+          <td>Liens sortants / contenus embarqués (player musical SoundCloud uniquement)</td>
+          <td>Uniquement lors d'un clic ou ouverture de lecteur de votre part</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      Aucun outil d'analytique tiers (Google Analytics, Mixpanel, Sentry, Plausible, Hotjar, etc.) n'est intégré à l'extension. Aucun pixel publicitaire. Aucun cookie tiers de tracking.
+    </p>
+  </section>
+
+  <section id="rights">
+    <h2>8. Vos droits RGPD</h2>
+    <p>Vous disposez à tout moment des droits suivants (Articles 15 à 22 RGPD)&nbsp;:</p>
+    <ul class="tight">
+      <li><strong>Droit d'accès</strong> (Art. 15) — savoir quelles données nous avons sur vous.</li>
+      <li><strong>Droit de rectification</strong> (Art. 16) — corriger une donnée inexacte (ex. votre pseudo).</li>
+      <li><strong>Droit à l'effacement</strong> (Art. 17) — supprimer votre compte.</li>
+      <li><strong>Droit à la portabilité</strong> (Art. 20) — récupérer toutes vos données dans un fichier JSON exploitable.</li>
+      <li><strong>Droit d'opposition</strong> (Art. 21) — refuser un traitement basé sur l'intérêt légitime.</li>
+      <li><strong>Droit à la limitation</strong> (Art. 18) — geler un traitement en cas de litige.</li>
+      <li><strong>Droit de retirer votre consentement</strong> à tout moment, sans effet sur les traitements passés.</li>
+    </ul>
+
+    <h3>8.1 Comment exercer vos droits</h3>
+    <ul class="tight">
+      <li><strong>Suppression du compte&nbsp;:</strong> ouvrez l'extension → section <em>Confidentialité</em> → bouton «&nbsp;Supprimer mon compte&nbsp;». Suppression différée de 30 jours, annulable.</li>
+      <li><strong>Export de vos données (JSON)&nbsp;:</strong> ouvrez l'extension → section <em>Confidentialité</em> → bouton «&nbsp;Exporter mes données&nbsp;». Téléchargement immédiat d'un fichier JSON exhaustif.</li>
+      <li><strong>Rectification, accès, opposition, limitation&nbsp;:</strong> écrivez à <a href="mailto:privacy@webtvmedia.net">privacy@webtvmedia.net</a> depuis l'adresse email associée à votre compte.</li>
+    </ul>
+    <p>
+      Délai de réponse&nbsp;: <strong>1 mois maximum</strong> à compter de la réception de votre demande (Art. 12 §3), prolongeable de 2 mois pour les demandes complexes (vous serez informé).
+    </p>
+  </section>
+
+  <section id="security">
+    <h2>9. Sécurité</h2>
+    <ul class="tight">
+      <li>Toutes les communications avec le backend sont chiffrées en <strong>TLS 1.2+</strong>.</li>
+      <li>Les tables Supabase sont protégées par <strong>Row Level Security (RLS)</strong> — chaque utilisateur n'accède qu'à ses propres données.</li>
+      <li>Les <strong>scores soumis sont signés HMAC</strong> côté client (clé rotée régulièrement, RPC <code>rotate_my_hmac_secret</code>) puis vérifiés côté serveur — empêche la falsification.</li>
+      <li>Les <strong>jetons de session Supabase</strong> (JWT) sont stockés via <code>chrome.storage.local</code> (isolé par extension, inaccessible aux pages web).</li>
+      <li>Aucun mot de passe utilisateur n'est jamais stocké — l'authentification passe par Google OAuth (PKCE).</li>
+      <li>L'extension <strong>ne charge aucun code distant</strong> (conforme aux règles Chrome Web Store MV3). Toutes les fonctionnalités sont incluses dans le paquet signé que vous installez.</li>
+      <li>Aucune utilisation de <code>eval()</code> ou d'évaluation dynamique de code.</li>
+    </ul>
+  </section>
+
+  <section id="cookies">
+    <h2>10. Stockage local &amp; cookies</h2>
+    <p>L'extension utilise les mécanismes de stockage suivants <strong>uniquement dans votre navigateur</strong>&nbsp;:</p>
+    <ul class="tight">
+      <li><code>chrome.storage.local</code> — préférences, cache de session, jeton Supabase, état des cosmétiques.</li>
+      <li><code>chrome.storage.session</code> — données éphémères vidées à la fermeture du navigateur (HWID en cache notamment).</li>
+      <li><code>localStorage</code> — cache de la balance de crédits, drapeau de consentement RGPD, cache des cosmétiques pour affichage rapide.</li>
+    </ul>
+    <p>
+      Aucun <strong>cookie</strong> tiers de tracking n'est posé par l'extension. Les seuls cookies qui pourraient apparaître proviennent du flux OAuth Google (durant l'authentification, sur le domaine <code>accounts.google.com</code>), soumis à la politique de Google.
+    </p>
+  </section>
+
+  <section id="minors">
+    <h2>11. Mineurs</h2>
+    <p>
+      Le service n'est <strong>pas destiné aux enfants de moins de 13 ans</strong> (limite COPPA / 15 ans en France selon la LIL). Nous ne sollicitons pas d'informations sur l'âge ; en cas de signalement d'un compte appartenant à un mineur sous l'âge légal, le compte sera supprimé sans délai et les données associées effacées.
+    </p>
+  </section>
+
+  <section id="changes">
+    <h2>12. Modifications de cette politique</h2>
+    <p>
+      Toute modification substantielle (nouvelle finalité, nouveau destinataire, changement de base légale) entraînera&nbsp;:
+    </p>
+    <ul class="tight">
+      <li>une mise à jour de la <strong>version</strong> et de la <strong>date</strong> en haut de cette page ;</li>
+      <li>un <strong>nouveau prompt de consentement</strong> dans l'extension si la nouvelle finalité nécessite votre accord ;</li>
+      <li>une notice in-app pour les changements non bloquants.</li>
+    </ul>
+    <p>L'historique des versions est consultable sur demande à <a href="mailto:privacy@webtvmedia.net">privacy@webtvmedia.net</a>.</p>
+  </section>
+
+  <section id="contact">
+    <h2>13. Contact &amp; réclamations</h2>
+    <p>
+      Pour toute question, demande d'exercice de droit, ou réclamation&nbsp;:
+    </p>
+    <ul class="tight">
+      <li><strong>Email RGPD&nbsp;:</strong> <a href="mailto:privacy@webtvmedia.net">privacy@webtvmedia.net</a></li>
+      <li><strong>Responsable&nbsp;:</strong> Ben Yedder Youssef, France</li>
+    </ul>
+    <div class="callout warn">
+      <strong>Droit de saisir l'autorité de contrôle.</strong> Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener noreferrer">CNIL (Commission Nationale de l'Informatique et des Libertés)</a> — autorité française de contrôle du RGPD — ou auprès de l'autorité de contrôle de votre pays de résidence dans l'UE.
+    </div>
+  </section>
+
+  <hr>
+  <footer class="legal">
+    Volt Extension v21.0.0 &middot; Politique de confidentialité &middot; 16 mai 2026<br>
+    © 2026 Ben Yedder Youssef. Tous droits réservés.
+  </footer>
+
+</div>
+</body>
+</html>

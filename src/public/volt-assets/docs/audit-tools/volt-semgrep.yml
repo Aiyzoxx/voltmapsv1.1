@@ -1,0 +1,36 @@
+rules:
+  - id: js-eval
+    message: "Use of eval() is forbidden by CWS policy"
+    severity: ERROR
+    languages: [javascript]
+    pattern: eval($X)
+  - id: js-new-function
+    message: "Use of new Function() is forbidden by CWS policy"
+    severity: ERROR
+    languages: [javascript]
+    pattern: new Function($X)
+  - id: js-settimeout-string
+    message: "setTimeout/setInterval with string arg → eval"
+    severity: ERROR
+    languages: [javascript]
+    pattern-either:
+      - pattern: setTimeout("...", $X)
+      - pattern: setInterval("...", $X)
+  - id: js-document-write
+    message: "document.write is forbidden"
+    severity: ERROR
+    languages: [javascript]
+    pattern: document.write($X)
+  - id: js-innerhtml-concat
+    message: "innerHTML += concat — verify all sources are escaped"
+    severity: WARNING
+    languages: [javascript]
+    pattern-either:
+      - pattern: $X.innerHTML += $Y
+      - pattern: $X.outerHTML += $Y
+  - id: js-trust-types-passthrough
+    message: "TrustedTypes policy that returns input unchanged is not actually sanitizing"
+    severity: WARNING
+    languages: [javascript]
+    pattern: |
+      $A.createPolicy($B, { createHTML: ($X) => $X })

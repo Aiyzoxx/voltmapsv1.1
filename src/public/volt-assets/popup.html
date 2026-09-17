@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volt â€” Dashboard</title>
+    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="fonts/fonts.css">
+    <link rel="stylesheet" href="fontawesome-fallback.css">
+</head>
+
+<body>
+    <a href="#main-content" class="volt-skip-link" data-i18n-key="a11y.skipToContent">Aller au contenu</a>
+    <h1 class="volt-sr-only" data-i18n-key="app.title">Volt Extension</h1>
+    <div class="sidebar" role="navigation" aria-label="Sections principales">
+
+
+        <div class="nav-group">
+            <span class="nav-label" data-i18n-key="nav.group.tools">Outils</span>
+            <div class="nav-item active" role="button" tabindex="0" data-target="dashboard">
+                <i class="fa-solid fa-gauge-high"></i>
+                <span data-i18n-key="nav.dashboard">Dashboard</span>
+            </div>
+            <div class="nav-item" role="button" tabindex="0" data-target="gametools">
+                <i class="fa-solid fa-gamepad"></i>
+                <span data-i18n-key="nav.gametools">Game Tools</span>
+            </div>
+
+        </div>
+
+        <div class="nav-group">
+            <span class="nav-label" data-i18n-key="nav.group.visual">Visuel</span>
+            <div class="nav-item" role="button" tabindex="0" data-target="appearance">
+                <i class="fa-solid fa-paintbrush"></i>
+                <span data-i18n-key="nav.customization">Apparence</span>
+            </div>
+            <div class="nav-item" role="button" tabindex="0" data-target="colorlab">
+                <i class="fa-solid fa-sliders"></i>
+                <span data-i18n-key="nav.colorlab">Color Lab</span>
+            </div>
+            <div class="nav-item" role="button" tabindex="0" data-target="media">
+                <i class="fa-solid fa-music"></i>
+                <span data-i18n-key="nav.media">MÃ©dia</span>
+            </div>
+        </div>
+
+
+
+        <div style="flex: 1;"></div> <!-- Spacer that pushes the footer down -->
+
+        <div class="sidebar-footer">
+            <a href="https://discord.com/channels/1487365631157207070/1487400742254936164" target="_blank" rel="noopener noreferrer" class="btn"
+                style="width:100%; text-decoration:none;">
+                <i class="fa-brands fa-discord"></i> <span data-i18n-key="nav.community">Community</span>
+            </a>
+            <button class="btn btn-mini" id="volt-open-admin-panel" hidden
+                style="margin-top:8px; width:100%; display:none;">Panneau Admin</button>
+            <button class="btn btn-mini" id="openLanguagePicker" data-i18n-key="language.switch"
+                style="margin-top:8px; width:100%;">Language</button>
+            <button class="theme-toggle-btn" id="themeToggleBtn">
+                <span class="toggle-icon"></span>
+                <span id="themeToggleLabel" data-i18n-key="theme.dark">Mode Sombre</span>
+            </button>
+            <label style="display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;cursor:pointer;color:var(--t2);">
+                <input type="checkbox" id="volt-oled-toggle" style="accent-color:var(--volt-accent);width:14px;height:14px;flex-shrink:0;">
+                <span data-i18n-key="theme.oled">Mode OLED (noir pur)</span>
+            </label>
+            <a id="openPrivacyPolicy" href="https://glistening-entremet-9886d0.netlify.app/" target="_blank" rel="noopener noreferrer"
+                style="display:block;margin-top:10px;font-size:11px;text-align:center;opacity:.65;text-decoration:underline;"
+                data-i18n-key="footer.privacy">Politique de confidentialitÃ©</a>
+        </div>
+    </div>
+
+
+    <div class="main" id="main-content" role="main" tabindex="-1">
+
+        <div id="dashboard" class="view-section active">
+            <div class="section-header">
+                <div class="section-title" data-i18n-key="section.dashboard.title">Dashboard</div>
+                <div class="section-subtitle" data-i18n-key="section.dashboard.subtitle">ContrÃ´les principaux & Overlays
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-header"><span class="card-title" data-i18n-key="card.liveOverlays">Live Overlays</span>
+                </div>
+
+                <div class="control-row">
+                    <div>
+                        <div class="control-label" id="lbl-toggleTimer" data-i18n-key="label.speedrun">Speedrun Timer <button class="volt-help-btn" data-help-title="Speedrun Timer" data-help-body="Affiche un chronomÃ¨tre en jeu. Active/dÃ©sactive avec la touche configurÃ©e ci-dessous. Le temps s'enregistre Ã  chaque run.">?</button></div>
+                        <div class="control-desc" data-i18n-key="desc.speedrun">Chrono</div>
+                    </div>
+                    <label class="switch"><input type="checkbox" id="toggleTimerSwitch" aria-labelledby="lbl-toggleTimer"><span
+                            class="slider"></span></label>
+                </div>
+
+                <div class="control-row">
+                    <div>
+                        <div class="control-label" id="lbl-smartTimer" data-i18n-key="label.smartTimer">Smart Timer <button class="volt-help-btn" data-help-title="Smart Timer" data-help-body="DÃ©tecte automatiquement le Game Over et la collecte de coins via le son. Le son du jeu DOIT Ãªtre activÃ©. L'onglet ne doit pas Ãªtre muet.">?</button></div>
+                        <div class="control-desc" data-i18n-key="desc.smartTimer">Timer automatique</div>
+                    </div>
+                    <label class="switch"><input type="checkbox" id="smartTimerSwitch" aria-labelledby="lbl-smartTimer"><span
+                            class="slider"></span></label>
+                </div>
+
+                <div style="margin: 10px 0 20px 0;">
+                    <div class="style-label" style="margin-bottom: 5px;" data-i18n-key="desc.timerHotkey">Touche
+                        d'activation du Timer :</div>
+                    <input type="text" id="customKeyInput" placeholder="Tapez une touche..."
+                        data-i18n-placeholder="placeholder.customKey"
+                        style="border: 1px solid var(--border);">
+                </div>
+
+                <div class="control-row">
+                    <div>
+                        <div class="control-label" id="lbl-toggleFps" data-i18n-key="label.fps">Compteur FPS <button class="volt-help-btn" data-help-title="Compteur FPS" data-help-body="Affiche tes images par seconde en temps rÃ©el. Utile pour vÃ©rifier les performances. Position draggable en jeu.">?</button></div>
+                        <div class="control-desc" data-i18n-key="desc.fps">Affiche vos FPS en jeu</div>
+                    </div>
+                    <label class="switch"><input type="checkbox" id="toggleFpsSwitch" aria-labelledby="lbl-toggleFps"><span
+                            class="slider"></span></label>
+                </div>
+
+                <div class="control-row">
+                    <div>
+                        <div class="control-label" id="lbl-toggleKeypress" data-i18n-key="label.keypress">Affichage Touches <button class="volt-help-btn" data-help-title="Affichage Touches" data-help-body="Affiche tes touches en temps rÃ©el comme NohBoard. Style configurable dans Apparence > Touches.">?</button></div>
+                        <div class="control-desc" data-i18n-key="desc.keypress">Visualisez vos inputs en direct</div>
+                    </div>
+                    <label class="switch"><input type="checkbox" id="toggleKeypressSwitch" aria-labelledby="lbl-toggleKeypress"><span
+                            class="slider"></span></label>
+                </div>
+
+                <div class="control-row" style="border-top:1px solid var(--border); margin-top:8px; padding-top:12px;">
+                    <div>
+                        <div class="control-label" id="lbl-dndMode" data-i18n-key="label.dndMode">Ne pas dÃ©ranger</div>
+                        <div class="control-desc" data-i18n-key="desc.dndMode">DÃ©sactiver les notifications de messages
+                        </div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="dndModeToggle" aria-labelledby="lbl-dndMode">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="control-row" style="border-top:1px solid var(--border); margin-top:8px; padding-top:12px;">
+                    <div>
+                        <div class="control-label" id="lbl-performanceMode" data-i18n-key="label.perfMode">FPS Max</div>
+                        <div class="control-desc" data-i18n-key="desc.perfMode">RÃ©duit au minimum les scripts, effets et overlays inutiles</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="performanceModeToggle" aria-labelledby="lbl-performanceMode">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="control-row" style="border-top:1px solid var(--border); margin-top:8px; padding-top:12px;">
+                    <div>
+                        <div class="control-label" id="lbl-dataSaver" data-i18n-key="label.dataSaver">Ã‰conomie data</div>
+                        <div class="control-desc" data-i18n-key="desc.dataSaver">DÃ©sactive les animations et rÃ©duit la frÃ©quence des mises Ã  jour</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="volt-data-saver" aria-labelledby="lbl-dataSaver">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+            </div>
+
+
+
+
+            <div class="card">
+                <div class="card-header"><span class="card-title" data-i18n-key="card.recording">Enregistrement</span>
+                </div>
+                <button class="btn btn-primary" id="recordingActionBtn">
+                    <i class="fa-solid fa-video"></i> <span data-i18n-key="btn.record">Lancer l'enregistrement</span>
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-header"><span class="card-title" data-i18n-key="card.resolution">RÃ©solution</span>
+                </div>
+                <div class="grid-2">
+                    <select id="resolutionSelect">
+                        <option value="608x1080" data-i18n-key="res.vertical">608x1080 (Tel)</option>
+                        <option value="890x1080" data-i18n-key="res.wide">890x1080 (Tablette)</option>
+                        <option value="custom" data-i18n-key="res.custom">Custom</option>
+                    </select>
+                    <button class="btn btn-primary" id="activateResolution" data-i18n-key="btn.force">mettre</button>
+                </div>
+
+                <div id="customResInputs" style="display:none; margin-top:12px;">
+                    <div class="grid-2" style="gap:8px;">
+                        <input type="number" id="customWidth" placeholder="Width"
+                            data-i18n-placeholder="placeholder.width" min="320" max="3840">
+                        <input type="number" id="customHeight" placeholder="Height"
+                            data-i18n-placeholder="placeholder.height" min="240" max="2160">
+                    </div>
+                </div>
+
+                <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border);">
+                    <div class="style-label" style="margin-bottom:8px;">Image de Fond (Bandes LatÃ©rales)</div>
+                    <div class="upload-row">
+                        <input type="file" id="res-bg-upload" accept="image/*" style="display:none;">
+                        <button class="btn btn-mini upload-btn" id="upload-res-bg">
+                            <i class="fa-solid fa-image"></i> Importer
+                        </button>
+                        <div id="res-bg-preview" class="preview-box"></div>
+                        <button class="btn btn-danger btn-mini" id="reset-res-bg" aria-label="RÃ©initialiser le fond rÃ©solution" data-i18n-aria="btn.reset">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                    <p style="font-size:10px; color:var(--text-muted); margin-top:6px;">Remplace la couleur unie par une
+                        image sur les cÃ´tÃ©s (Mode "Forcer" requis).</p>
+                </div>
+
+                <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="blackBarsToggle" checked style="width: auto;" aria-labelledby="lbl-blackBars">
+                        <span id="lbl-blackBars" style="font-size: 13px; color: var(--text-muted);"
+                            data-i18n-key="label.blackBars">Bandes</span>
+                    </div>
+
+                    <div style="min-width: 95px; width: auto;">
+                        <div class="color-picker-wrapper" id="wrap-barsColor">
+                            <div class="color-preview-bg" id="preview-barsColor" style="background-color: #000000;">
+                            </div>
+                            <span class="color-value-text" id="text-barsColor">#000000</span>
+                            <input type="color" id="barsColorPicker" value="#000000">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-mini" id="deactivateResolution" style="width: auto;"
+                        data-i18n-key="btn.reset">RÃ©initialiser</button>
+                </div>
+
+            </div>
+
+            <!-- DÃ‰FI COMMUNAUTAIRE -->
+            <div class="card" id="dashboard-community-challenge" style="display:none;">
+                <div class="card-header">
+                    <span class="card-title" data-i18n-key="card.communityChallenge">ðŸŒ DÃ©fi Communautaire</span>
+                    <span id="community-challenge-deadline" style="font-size:10px;color:var(--text-muted);"></span>
+                </div>
+                <div id="community-challenge-title" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;"></div>
+                <div id="community-challenge-desc" style="font-size:11px;color:var(--text-muted);margin-bottom:10px;"></div>
+                <div style="margin-bottom:6px;">
+                    <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                        <span id="community-challenge-progress-label" style="font-size:11px;color:var(--text-muted);"></span>
+                        <span id="community-challenge-pct" style="font-size:11px;font-weight:700;color:var(--brand);"></span>
+                    </div>
+                    <div style="height:8px;border-radius:99px;overflow:hidden;background:rgba(255,255,255,0.06);">
+                        <div id="community-challenge-bar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--brand),var(--accent));border-radius:99px;transition:width .6s ease;"></div>
+                    </div>
+                </div>
+                <div style="display:flex;gap:6px;margin-top:8px;">
+                    <div style="flex:1;background:rgba(193,127,89,0.07);border:1px solid rgba(193,127,89,0.15);border-radius:8px;padding:6px 8px;text-align:center;">
+                        <div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;" data-i18n-key="stat.credits">CrÃ©dits</div>
+                        <div id="community-challenge-credits" style="font-size:14px;font-weight:800;color:var(--brand);">â€”</div>
+                    </div>
+                    <div style="flex:1;background:rgba(193,127,89,0.07);border:1px solid rgba(193,127,89,0.15);border-radius:8px;padding:6px 8px;text-align:center;">
+                        <div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;">XP</div>
+                        <div id="community-challenge-xp" style="font-size:14px;font-weight:800;color:var(--accent);">â€”</div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div id="gametools" class="view-section">
+            <div class="section-header">
+                <div class="section-title" data-i18n-key="section.gametools.title">Outils Jeu</div>
+                <div class="section-subtitle" data-i18n-key="section.gametools.subtitle">Sauvegardes, Cartes & ContrÃ´les
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header"><span class="card-title" data-i18n-key="card.backup">Sauvegarde du jeu</span>
+                </div>
+                <div class="grid-2">
+                    <button class="btn" id="backup"><i class="fa-solid fa-download"></i> <span
+                            data-i18n-key="btn.backup">Backup</span></button>
+                    <button class="btn" id="restore"><i class="fa-solid fa-upload"></i> <span
+                            data-i18n-key="btn.restore">Restore</span></button>
+                    <button class="btn btn-primary" id="save100"><i class="fa-solid fa-unlock"></i> <span
+                            data-i18n-key="btn.unlock">Unlock All</span></button>
+                    <button class="btn btn-danger" id="cleanData"><i class="fa-solid fa-trash"></i> <span
+                            data-i18n-key="btn.resetData">Reset Data</span></button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title" data-i18n-key="card.resetWorld">Reset World (Hotkey)</span>
+                </div>
+                <div style="display: flex; gap: 8px; flex-direction: column;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span id="lbl-resetWorld" style="font-size: 13px; color: var(--text-muted);"
+                            data-i18n-key="label.enableResetWorld">Activer le raccourci</span>
+                        <label class="switch">
+                            <input type="checkbox" id="resetWorldToggle" aria-labelledby="lbl-resetWorld">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 13px; color: var(--text-muted); flex: 1;"
+                            data-i18n-key="label.hotkey">Touche :</span>
+                        <input type="text" id="resetWorldHotkey" placeholder="ex: K"
+                            style="width: 80px; text-align: center; text-transform: uppercase; background: var(--bg-input); border: 1px solid var(--border); border-radius: 4px; color: var(--t1); font-weight: 700; height: 30px;"
+                            data-i18n-placeholder="placeholder.resetWorldKey">
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="card">
+                <div class="card-header"><span class="card-title" data-i18n-key="card.mapSelector">Selecteur de
+                        maps</span></div>
+                <div class="map-provider-switch" role="tablist" aria-label="Map provider">
+                    <button class="btn btn-mini map-provider-btn active" data-map-provider="yellow" type="button">
+                        Yellow Suit
+                    </button>
+                </div>
+                <div class="scroll-list map-list" data-map-list="yellow">
+                    <button class="btn btn-mini city-link"
+                        data-url="https://yell0wsuit.page/assets/games/subway-surfers-unity/index.html">San
+                        Francisco</button>
+                    <button class="btn btn-mini city-link"
+                        data-url="https://yell0wsuit.page/assets/games/subway-surfers-unity/winterholiday.html">
+                        Winter Holiday</button>
+                    <button class="btn btn-mini city-link"
+                        data-url="https://yell0wsuit.page/assets/games/subway-surfers-unity/monaco.html">
+                        Monaco</button>
+                    <button class="btn btn-mini city-link"
+                        data-url="https://yell0wsuit.page/assets/games/subway-surfers-unity/zurich.html">
+                        Zurich</button>
+                    <button class="btn btn-mini city-link"
+                        data-url="https://yell0wsuit.page/assets/games/subway-surfers-unity/london.html">
+                        London</button>
+                    <button class="btn btn-mini city-link"
+                        data-url="https://yell0wsuit.page/assets/games/subway-surfers-unity/houston.html">
+                        Houston</button>
+                    <button class="btn btn-mini city-link"
+                        data-url="https://yell0wsuit.page/assets/games/subway-surfers-unity/havana.html">
+                        Havana</button>
+                    <button class="btn btn-mini city-link"
+                        data-url="https://yell0wsuit.page/assets/games/subway-surfers-unity/berlin.html">
+                        Berlin</button>
+                    <button class="btn btn-mini city-link"
+                        data-url="https://yell0wsuit.page/assets/games/subway-surfers-unity/beijing.html">
+                        <i class="fa-solid fa-archway"></i> Beijing</button>
+                    <button class="btn btn-mini city-link"
+                        data-url="https://yell0wsuit.page/assets/games/subway-surfers-unity/mexico.html">
+                        Mexico</button>
+                    <button class="btn btn-mini city-link"
+                        data-url="https://yell0wsuit.page/assets/games/subway-surfers-unity/iceland.html">
+                        Iceland</button>
+                    <button class="btn btn-mini city-link"
+                        data-url="https://yell0wsuit.page/assets/games/subway-surfers-unity/buenos-aires.html">Buenos
+                        Aires</button>
+                    <button class="btn btn-mini city-link"
+                        data-url="https://yell0wsuit.page/assets/games/subway-surfers-unity/barcelona.html">
+                        Barcelona</button>
+                    <button class="btn btn-mini city-link"
+                        data-url="https://yell0wsuit.page/assets/games/subway-surfers-unity/miami.html">
+                        Miami</button>
+                    <button class="btn btn-mini city-link"
+                        data-url="https://yell0wsuit.page/assets/games/subway-surfers-unity/neworleans.html">New
+                        Orleans</button>
+                </div>
+            </div>
+
+            <!-- ===== FAT RES / STRETCHED RESOLUTION ===== -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title" data-i18n-key="card.stretchedRes">Stretched Resolution</span>
+                </div>
+
+                <div class="control-row" style="margin-bottom: 10px;">
+                    <div>
+                        <div class="control-label" data-i18n-key="label.stretchedToggle">Activer l'Ã©tirement</div>
+                        <div class="control-desc" data-i18n-key="desc.stretchedToggle">Force le canvas Ã  s'Ã©tirer
+                            horizontalement (Fat Res)</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="stretchedResToggle" aria-label="Stretched resolution">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div id="stretchedResControls" style="display:none;">
+                    <div class="control-row">
+                        <span class="control-label" id="lbl-stretchFactor" style="font-size:12px;"
+                            data-i18n-key="label.stretchIntensity">IntensitÃ© (Fat)</span>
+                        <input type="range" id="stretchFactorSlider" aria-labelledby="lbl-stretchFactor" min="1" max="2" step="0.05" value="1"
+                            style="width:55%;">
+                        <span id="val-stretchFactor"
+                            style="min-width:38px;text-align:right;font-weight:700;color:var(--accent);">1.00x</span>
+                    </div>
+                    <p style="font-size:11px; color: var(--text-muted); margin-top:8px;"
+                        data-i18n-key="desc.stretchInfo">
+                        Ã‰tire le canvas sans couper les bords. Appuyez sur F11 pour le plein Ã©cran.
+                    </p>
+                    <button class="btn btn-danger btn-mini" id="stretchedResResetBtn"
+                        style="width:100%; margin-top:8px;">
+                        <i class="fa-solid fa-rotate-left"></i> <span data-i18n-key="btn.stretchedReset">RÃ©initialiser
+                            (F5)</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header"><span class="card-title" data-i18n-key="card.keymap">Mapping Clavier</span>
+                </div>
+                <div class="grid-4">
+                    <input type="text" id="upKey" placeholder="Haut (Z)" data-i18n-placeholder="placeholder.up" aria-label="Touche haut">
+                    <input type="text" id="leftKey" placeholder="Gauche (Q)" data-i18n-placeholder="placeholder.left" aria-label="Touche gauche">
+                    <input type="text" id="downKey" placeholder="Bas (S)" data-i18n-placeholder="placeholder.down" aria-label="Touche bas">
+                    <input type="text" id="rightKey" placeholder="Droite (D)" data-i18n-placeholder="placeholder.right" aria-label="Touche droite">
+                </div>
+                <div class="grid-2" style="margin-top: 10px;">
+                    <button class="btn btn-primary" id="saveZqsdKeys" data-i18n-key="btn.apply">Appliquer</button>
+                    <button class="btn" id="deactivateZqsd" data-i18n-key="btn.disable">DÃ©sactiver</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header"><span class="card-title" data-i18n-key="card.tripleClick">Auto Click
+                        Boosts</span></div>
+
+                <div class="control-row">
+                    <div>
+                        <div class="control-label" id="lbl-tripleClick" data-i18n-key="label.tripleClick">Activer</div>
+                        <div class="control-desc" data-i18n-key="desc.tripleClick">Mettre le curseur ou il y a les
+                            boosts</div>
+                    </div>
+                    <label class="switch"><input type="checkbox" id="tripleClickToggle" aria-labelledby="lbl-tripleClick"><span
+                            class="slider"></span></label>
+                </div>
+
+                <div style="margin-top: 10px;">
+                    <div class="control-desc" style="margin-bottom: 5px;" data-i18n-key="desc.activationKey">Touche
+                        d'activation :</div>
+                    <input type="text" id="tripleClickInput" placeholder="..."
+                        data-i18n-placeholder="placeholder.clickSet" readonly
+                        style="cursor: pointer; text-align: center; font-weight: bold; color: var(--accent);">
+                </div>
+
+                <div class="control-desc"
+                    style="margin-top: 12px; padding: 10px; background: var(--bg-input); border-radius: var(--radius); text-align: center;"
+                    data-i18n-key="msg.tripleClickHint">
+                    Place ta souris sur le jeu et appuie sur la touche !
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="appearance" class="view-section">
+            <div class="section-header compact-section-header">
+                <div class="section-title" data-i18n-key="section.appearance.title">Personnalisation</div>
+                <div class="section-subtitle" data-i18n-key="section.appearance.subtitle">Tout est rangÃ© dans le menu : presets touches, overlays, images, sons et effets.</div>
+            </div>
+
+            <div class="card customization-router-card customization-router-card-clean">
+                <div class="card-header customization-main-header">
+                    <div>
+                        <span class="card-title" data-i18n-key="title.advOptions">Menu personnalisation</span>
+                        <div class="control-desc">Choisis une catÃ©gorie, modifie, et lâ€™overlay se met Ã  jour directement.</div>
+                    </div>
+                </div>
+
+                <div class="customization-toolbar customization-toolbar-clean">
+                    <label class="customization-select-wrap" for="customizationOverlaySelect">
+                        <span class="control-label">CatÃ©gorie</span>
+                        <select id="customizationOverlaySelect" class="customization-select">
+                            <option value="keys">Affichage touches</option>
+                            <option value="timer">Timer</option>
+                            <option value="fps">FPS</option>
+                            <option value="images">Images de fond</option>
+                            <option value="sound">Son des touches</option>
+                            <option value="font">Police</option>
+                            <option value="effects">Effets Timer</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="customization-panel active" id="custom-panel-keys" data-customization-panel="keys">
+                    <div class="customization-panel-title customization-panel-title-spaced">
+                        <div>
+                            <i class="fa-solid fa-keyboard"></i>
+                            <span>Affichage touches</span>
+                        </div>
+                        <span class="mini-pill">Presets style NohBoard</span>
+                    </div>
+
+                    <div class="keys-preview-card">
+                        <div class="keys-preview-title">AperÃ§u rapide</div>
+                        <div class="keys-preview-board" aria-hidden="true">
+                            <div class="keys-preview-row"><span class="preview-key" data-preview-key="up">Z</span></div>
+                            <div class="keys-preview-row"><span class="preview-key" data-preview-key="left">Q</span><span class="preview-key active" data-preview-key="down">S</span><span class="preview-key" data-preview-key="right">D</span></div>
+                        </div>
+                        <div class="control-desc">Les presets changent les couleurs, tailles, bordures, glow, padding et animations.</div>
+                    </div>
+
+                    <div class="customization-subblock">
+                        <div class="subblock-header">
+                            <span>Presets prÃªts Ã  utiliser</span>
+                            <small>1 clic = appliquÃ©</small>
+                        </div>
+                        <div class="key-preset-grid">
+                            <button class="btn btn-mini key-preset-btn" data-key-preset="nohboardClassic">NohBoard Classic</button>
+                            <button class="btn btn-mini key-preset-btn" data-key-preset="minimalDark">Minimal Dark</button>
+                            <button class="btn btn-mini key-preset-btn" data-key-preset="glass">Glass</button>
+                            <button class="btn btn-mini key-preset-btn" data-key-preset="neonGreen">Neon Green</button>
+                            <button class="btn btn-mini key-preset-btn" data-key-preset="blueIce">Blue Ice</button>
+                            <button class="btn btn-mini key-preset-btn" data-key-preset="redDanger">Red Danger</button>
+                            <button class="btn btn-mini key-preset-btn" data-key-preset="purpleCyber">Purple Cyber</button>
+                            <button class="btn btn-mini key-preset-btn" data-key-preset="whiteClean">White Clean</button>
+                            <button class="btn btn-mini key-preset-btn" data-key-preset="pixel">Pixel</button>
+                            <button class="btn btn-mini key-preset-btn" data-key-preset="compact">Compact</button>
+                            <button class="btn btn-mini key-preset-btn" data-key-preset="bigStream">Big Stream</button>
+                            <button class="btn btn-mini key-preset-btn" data-key-preset="transparent">NohBoard 3D</button>
+                        </div>
+                    </div>
+
+                    <div class="customization-subblock">
+                        <div class="subblock-header">
+                            <span>Layout des touches</span>
+                            <small>flÃ¨ches / WASD / ZQSD / perso</small>
+                        </div>
+                        <div class="key-layout-grid">
+                            <button class="btn btn-mini key-layout-btn active" data-layout="arrows">FlÃ¨ches</button>
+                            <button class="btn btn-mini key-layout-btn" data-layout="wasd">WASD</button>
+                            <button class="btn btn-mini key-layout-btn" data-layout="zqsd">ZQSD</button>
+                            <button class="btn btn-mini key-layout-btn" data-layout="custom">Perso</button>
+                        </div>
+                    </div>
+
+                    <div class="customization-subblock">
+                        <div class="subblock-header">
+                            <span>Touches personnalisÃ©es</span>
+                            <small>optionnel</small>
+                        </div>
+                        <div class="custom-keys-grid">
+                            <label><span>Haut</span><input type="text" id="custom-key-up" maxlength="12" value="Z"></label>
+                            <label><span>Gauche</span><input type="text" id="custom-key-left" maxlength="12" value="Q"></label>
+                            <label><span>Bas</span><input type="text" id="custom-key-down" maxlength="12" value="S"></label>
+                            <label><span>Droite</span><input type="text" id="custom-key-right" maxlength="12" value="D"></label>
+                        </div>
+                        <button class="btn btn-mini" id="apply-custom-keys">Appliquer les touches</button>
+                    </div>
+
+                    <!-- Feature 7: Positions individuelles des touches -->
+                    <div class="customization-subblock">
+                        <div class="subblock-header">
+                            <span>Positions des touches</span>
+                            <button id="btn-reset-key-positions" class="btn btn-mini">RÃ©initialiser</button>
+                        </div>
+                        <p class="control-desc" style="margin:4px 0 0;">Glisse chaque touche dans l'overlay en jeu pour la repositionner indÃ©pendamment.</p>
+                    </div>
+
+                    <div class="customization-grid customization-grid-two">
+                        <div class="control-row">
+                            <span class="control-label">Fond inactif</span>
+                            <div class="color-picker-wrapper">
+                                <div class="color-preview-bg" id="preview-adv-keys-bg" style="background-color: #000000;"></div>
+                                <span class="color-value-text" id="text-adv-keys-bg">#000000</span>
+                                <input type="color" aria-label="Fond inactif" id="adv-keys-bg" value="#000000">
+                            </div>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label">Texte inactif</span>
+                            <div class="color-picker-wrapper">
+                                <div class="color-preview-bg" id="preview-adv-keys-text" style="background-color: #ffffff;"></div>
+                                <span class="color-value-text" id="text-adv-keys-text">#ffffff</span>
+                                <input type="color" aria-label="Texte inactif" id="adv-keys-text" value="#ffffff">
+                            </div>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label">Fond actif</span>
+                            <div class="color-picker-wrapper">
+                                <div class="color-preview-bg" id="preview-adv-keys-active-bg" style="background-color: #4bc277;"></div>
+                                <span class="color-value-text" id="text-adv-keys-active-bg">#4BC277</span>
+                                <input type="color" aria-label="Fond actif" id="adv-keys-active-bg" value="#4bc277">
+                            </div>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label">Texte actif</span>
+                            <div class="color-picker-wrapper">
+                                <div class="color-preview-bg" id="preview-adv-keys-active-text" style="background-color: #ffffff;"></div>
+                                <span class="color-value-text" id="text-adv-keys-active-text">#ffffff</span>
+                                <input type="color" aria-label="Texte actif" id="adv-keys-active-text" value="#ffffff">
+                            </div>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label">Bordure inactive</span>
+                            <div class="color-picker-wrapper">
+                                <div class="color-preview-bg" id="preview-adv-keys-border" style="background-color: #3d3d3d;"></div>
+                                <span class="color-value-text" id="text-adv-keys-border">#3D3D3D</span>
+                                <input type="color" aria-label="Bordure inactive" id="adv-keys-border" value="#3d3d3d">
+                            </div>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label">Bordure active</span>
+                            <div class="color-picker-wrapper">
+                                <div class="color-preview-bg" id="preview-adv-keys-active-border" style="background-color: #6fe49d;"></div>
+                                <span class="color-value-text" id="text-adv-keys-active-border">#6FE49D</span>
+                                <input type="color" aria-label="Bordure active" id="adv-keys-active-border" value="#6fe49d">
+                            </div>
+                        </div>
+                        <label class="control-row customization-select-row">
+                            <span class="control-label">Casse texte</span>
+                            <select id="adv-keys-text-transform">
+                                <option value="none">Normale</option>
+                                <option value="uppercase">Majuscules</option>
+                                <option value="lowercase">Minuscules</option>
+                            </select>
+                        </label>
+                        <div class="control-row">
+                            <div>
+                                <div class="control-label" id="lbl-advKeysShowLabels">Afficher lettres</div>
+                                <div class="control-desc">Utile pour un style icÃ´ne/image.</div>
+                            </div>
+                            <label class="switch"><input type="checkbox" id="adv-keys-show-labels" checked aria-labelledby="lbl-advKeysShowLabels"><span class="slider"></span></label>
+                        </div>
+                    </div>
+
+                    <div class="customization-grid customization-grid-two">
+                        <div class="range-control"><span class="control-label">Arrondi</span><input type="range" aria-label="Arrondi"id="adv-keys-radius" min="0" max="40" value="12"><span id="val-keys-radius">12px</span></div>
+                        <div class="range-control"><span class="control-label">OpacitÃ©</span><input type="range" aria-label="OpacitÃ©"id="adv-keys-opacity" min="0" max="100" value="100"><span id="val-keys-opacity">100%</span></div>
+                        <div class="range-control"><span class="control-label">Taille globale</span><input type="range" aria-label="Taille globale"id="adv-keys-size" min="60" max="180" value="100"><span id="val-keys-size">100%</span></div>
+                        <div class="range-control"><span class="control-label">Largeur touche</span><input type="range" aria-label="Largeur touche"id="adv-keys-width" min="70" max="170" value="100"><span id="val-keys-width">100%</span></div>
+                        <div class="range-control"><span class="control-label">Hauteur touche</span><input type="range" aria-label="Hauteur touche"id="adv-keys-height" min="70" max="170" value="100"><span id="val-keys-height">100%</span></div>
+                        <div class="range-control"><span class="control-label">Taille texte</span><input type="range" aria-label="Taille texte"id="adv-keys-text-size" min="50" max="190" value="100"><span id="val-keys-text-size">100%</span></div>
+                        <div class="range-control"><span class="control-label">Graisse texte</span><input type="range" aria-label="Graisse texte"id="adv-keys-font-weight" min="300" max="1000" step="100" value="700"><span id="val-keys-font-weight">700</span></div>
+                        <div class="range-control"><span class="control-label">Bordure</span><input type="range" aria-label="Bordure"id="adv-keys-border-width" min="0" max="10" value="2"><span id="val-keys-border">2px</span></div>
+                        <div class="range-control"><span class="control-label">Ombre inactive</span><input type="range" aria-label="Ombre inactive"id="adv-keys-shadow" min="0" max="40" value="0"><span id="val-keys-shadow">0px</span></div>
+                        <div class="range-control"><span class="control-label">Glow actif</span><input type="range" aria-label="Glow actif"id="adv-keys-active-glow" min="0" max="60" value="15"><span id="val-keys-active-glow">15px</span></div>
+                        <div class="range-control"><span class="control-label">Espace touches</span><input type="range" aria-label="Espace touches"id="adv-keys-gap" min="0" max="32" value="10"><span id="val-keys-gap">10px</span></div>
+                        <div class="range-control"><span class="control-label">Padding overlay</span><input type="range" aria-label="Padding overlay"id="adv-keys-padding" min="0" max="36" value="15"><span id="val-keys-padding">15px</span></div>
+                        <div class="range-control"><span class="control-label">Scale appui</span><input type="range" aria-label="Scale appui"id="adv-keys-press-scale" min="70" max="115" value="96"><span id="val-keys-press-scale">96%</span></div>
+                        <div class="range-control"><span class="control-label">Inclinaison</span><input type="range" aria-label="Inclinaison"id="adv-keys-tilt" min="-15" max="15" value="0"><span id="val-keys-tilt">0Â°</span></div>
+                    </div>
+
+                    <!-- TÃ‚CHE A : Couleurs par touche individuelle -->
+                    <div class="customization-subblock">
+                        <div class="subblock-header">
+                            <span>Couleurs par touche</span>
+                            <small>remplace la couleur globale</small>
+                        </div>
+                        <div class="key-individual-colors-grid" id="key-individual-colors-grid">
+                            <div class="key-color-item" data-key-id="key-up">
+                                <div class="key-color-preview" id="preview-key-color-up" style="background:#000;"></div>
+                                <span class="key-color-label">Haut</span>
+                                <input type="color" id="key-color-up" aria-label="Couleur touche haut" value="#000000">
+                            </div>
+                            <div class="key-color-item" data-key-id="key-left">
+                                <div class="key-color-preview" id="preview-key-color-left" style="background:#000;"></div>
+                                <span class="key-color-label">Gauche</span>
+                                <input type="color" id="key-color-left" aria-label="Couleur touche gauche" value="#000000">
+                            </div>
+                            <div class="key-color-item" data-key-id="key-down">
+                                <div class="key-color-preview" id="preview-key-color-down" style="background:#000;"></div>
+                                <span class="key-color-label">Bas</span>
+                                <input type="color" id="key-color-down" aria-label="Couleur touche bas" value="#000000">
+                            </div>
+                            <div class="key-color-item" data-key-id="key-right">
+                                <div class="key-color-preview" id="preview-key-color-right" style="background:#000;"></div>
+                                <span class="key-color-label">Droite</span>
+                                <input type="color" id="key-color-right" aria-label="Couleur touche droite" value="#000000">
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary btn-mini" id="reset-key-colors" style="margin-top:8px;">
+                            <i class="fa-solid fa-rotate-left"></i> RÃ©initialiser les couleurs
+                        </button>
+                    </div>
+
+                    <!-- Images par touche individuelle -->
+                    <div class="customization-subblock">
+                        <div class="subblock-header">
+                            <span>Images par touche</span>
+                            <small>remplace la couleur / fond global</small>
+                        </div>
+                        <div class="key-individual-images-grid" id="key-individual-images-grid">
+                            <div class="key-image-item" data-key-id="key-up">
+                                <span class="key-color-label">Haut</span>
+                                <div class="key-image-preview" id="preview-key-image-up"></div>
+                                <input type="file" id="key-image-upload-up" accept="image/*" style="display:none;">
+                                <button class="btn btn-mini upload-btn" id="btn-key-image-up"><i class="fa-solid fa-upload"></i></button>
+                                <button class="btn btn-danger btn-mini" id="reset-key-image-up"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                            <div class="key-image-item" data-key-id="key-left">
+                                <span class="key-color-label">Gauche</span>
+                                <div class="key-image-preview" id="preview-key-image-left"></div>
+                                <input type="file" id="key-image-upload-left" accept="image/*" style="display:none;">
+                                <button class="btn btn-mini upload-btn" id="btn-key-image-left"><i class="fa-solid fa-upload"></i></button>
+                                <button class="btn btn-danger btn-mini" id="reset-key-image-left"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                            <div class="key-image-item" data-key-id="key-down">
+                                <span class="key-color-label">Bas</span>
+                                <div class="key-image-preview" id="preview-key-image-down"></div>
+                                <input type="file" id="key-image-upload-down" accept="image/*" style="display:none;">
+                                <button class="btn btn-mini upload-btn" id="btn-key-image-down"><i class="fa-solid fa-upload"></i></button>
+                                <button class="btn btn-danger btn-mini" id="reset-key-image-down"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                            <div class="key-image-item" data-key-id="key-right">
+                                <span class="key-color-label">Droite</span>
+                                <div class="key-image-preview" id="preview-key-image-right"></div>
+                                <input type="file" id="key-image-upload-right" accept="image/*" style="display:none;">
+                                <button class="btn btn-mini upload-btn" id="btn-key-image-right"><i class="fa-solid fa-upload"></i></button>
+                                <button class="btn btn-danger btn-mini" id="reset-key-image-right"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary btn-mini" id="reset-all-key-images" style="margin-top:8px;">
+                            <i class="fa-solid fa-rotate-left"></i> RÃ©initialiser toutes les images
+                        </button>
+                    </div>
+
+                    <!-- TÃ‚CHE B : Snap-to-grid -->
+                    <div class="customization-subblock">
+                        <div class="subblock-header">
+                            <span>Position des overlays</span>
+                        </div>
+                        <div class="control-row">
+                            <div>
+                                <div class="control-label" id="lbl-snapGrid">Snap-to-grid (grille 20px)</div>
+                                <div class="control-desc">Les overlays s'alignent sur une grille de 20px lors du drag.</div>
+                            </div>
+                            <label class="switch"><input type="checkbox" id="overlay-snap-grid" aria-labelledby="lbl-snapGrid"><span class="slider"></span></label>
+                        </div>
+                        <button class="btn btn-secondary btn-mini" id="reset-overlay-positions" style="margin-top:8px;">
+                            <i class="fa-solid fa-rotate-left"></i> RÃ©initialiser les positions
+                        </button>
+                    </div>
+
+                    <button class="btn btn-danger btn-mini" id="reset-keys-style">
+                        <i class="fa-solid fa-rotate-left"></i> <span data-i18n-key="btn.resetStyle">RÃ©initialiser le style</span>
+                    </button>
+                </div>
+
+                <div class="customization-panel" id="custom-panel-timer" data-customization-panel="timer">
+                    <div class="customization-panel-title">
+                        <i class="fa-solid fa-stopwatch"></i>
+                        <span data-i18n-key="card.styleTimer">Style Timer</span>
+                    </div>
+
+                    <!-- TIMER SKINS GALLERY -->
+                    <div style="margin-bottom:14px;">
+                        <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;">Skins</div>
+                        <div id="timer-skins-gallery" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
+                            <!-- JS-injected from TIMER_SKIN_PRESETS -->
+                        </div>
+                    </div>
+
+                    <div class="customization-grid customization-grid-two">
+                        <div class="control-row">
+                            <span class="control-label" data-i18n-key="adv.bgColor">Couleur fond</span>
+                            <div class="color-picker-wrapper">
+                                <div class="color-preview-bg" id="preview-adv-timer-bg" style="background-color: #000000;"></div>
+                                <span class="color-value-text" id="text-adv-timer-bg">#000000</span>
+                                <input type="color" aria-label="Couleur fond" id="adv-timer-bg" value="#000000">
+                            </div>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label" data-i18n-key="adv.textColor">Couleur texte</span>
+                            <div class="color-picker-wrapper">
+                                <div class="color-preview-bg" id="preview-adv-timer-text" style="background-color: #ffffff;"></div>
+                                <span class="color-value-text" id="text-adv-timer-text">#ffffff</span>
+                                <input type="color" aria-label="Couleur texte" id="adv-timer-text" value="#ffffff">
+                            </div>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label" data-i18n-key="adv.borderColor">Couleur bordure</span>
+                            <div class="color-picker-wrapper">
+                                <div class="color-preview-bg" id="preview-adv-timer-border-color" style="background-color: #6366f1;"></div>
+                                <span class="color-value-text" id="text-adv-timer-border-color">#6366f1</span>
+                                <input type="color" aria-label="Couleur bordure" id="adv-timer-border-color" value="#6366f1">
+                            </div>
+                        </div>
+                        <label class="control-row customization-select-row">
+                            <span class="control-label">Alignement</span>
+                            <select id="adv-timer-align">
+                                <option value="flex-end">Droite</option>
+                                <option value="center">Centre</option>
+                                <option value="flex-start">Gauche</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="customization-grid customization-grid-two">
+                        <div class="range-control"><span class="control-label" data-i18n-key="adv.radius">Arrondi</span><input type="range" aria-label="Arrondi"id="adv-timer-radius" min="0" max="40" value="0"><span id="val-timer-radius">0px</span></div>
+                        <div class="range-control"><span class="control-label" data-i18n-key="adv.opacity">OpacitÃ©</span><input type="range" aria-label="OpacitÃ©"id="adv-timer-opacity" min="0" max="100" value="100"><span id="val-timer-opacity">100%</span></div>
+                        <div class="range-control"><span class="control-label" data-i18n-key="adv.fontSize">Taille police</span><input type="range" aria-label="Taille police"id="adv-timer-font" min="50" max="220" value="100"><span id="val-timer-font">100%</span></div>
+                        <div class="range-control"><span class="control-label" data-i18n-key="adv.border">Bordure</span><input type="range" aria-label="Bordure"id="adv-timer-border" min="0" max="12" value="0"><span id="val-timer-border">0px</span></div>
+                        <div class="range-control"><span class="control-label" data-i18n-key="adv.shadow">Ombre bloc</span><input type="range" aria-label="Ombre bloc"id="adv-timer-shadow" min="0" max="50" value="0"><span id="val-timer-shadow">0px</span></div>
+                        <div class="range-control"><span class="control-label">Ombre texte</span><input type="range" aria-label="Ombre texte"id="adv-timer-text-shadow" min="0" max="24" value="0"><span id="val-timer-text-shadow">0px</span></div>
+                        <div class="range-control"><span class="control-label">Padding X</span><input type="range" aria-label="Padding X"id="adv-timer-padding-x" min="0" max="48" value="12"><span id="val-timer-padding-x">12px</span></div>
+                        <div class="range-control"><span class="control-label">Padding Y</span><input type="range" aria-label="Padding Y"id="adv-timer-padding-y" min="0" max="28" value="8"><span id="val-timer-padding-y">8px</span></div>
+                        <div class="range-control"><span class="control-label">DÃ©cimales</span><input type="range" aria-label="DÃ©cimales"id="adv-timer-decimals" min="45" max="100" value="70"><span id="val-timer-decimals">70%</span></div>
+                        <div class="range-control"><span class="control-label">Espacement</span><input type="range" aria-label="Espacement"id="adv-timer-letter" min="0" max="8" value="0"><span id="val-timer-letter">0px</span></div>
+                    </div>
+
+                    <button class="btn btn-danger btn-mini" id="reset-timer-style">
+                        <i class="fa-solid fa-rotate-left"></i> <span data-i18n-key="btn.resetStyle">RÃ©initialiser le style</span>
+                    </button>
+                </div>
+
+                <div class="customization-panel" id="custom-panel-fps" data-customization-panel="fps">
+                    <div class="customization-panel-title">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        <span data-i18n-key="card.styleFps">Style FPS</span>
+                    </div>
+
+                    <div class="customization-grid customization-grid-two">
+                        <label class="control-row customization-select-row">
+                            <span class="control-label">Mode FPS</span>
+                            <select id="fpsModeSelect">
+                                <option value="normal">Normal</option>
+                                <option value="minimal">Minimal</option>
+                            </select>
+                        </label>
+                        <div class="control-row">
+                            <div>
+                                <div class="control-label" id="lbl-fpsShowBg">Fond FPS</div>
+                                <div class="control-desc">DÃ©sactive pour un affichage texte seul.</div>
+                            </div>
+                            <label class="switch"><input type="checkbox" id="fpsShowBgToggle" checked aria-labelledby="lbl-fpsShowBg"><span class="slider"></span></label>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label" data-i18n-key="adv.bgColor">Couleur fond</span>
+                            <div class="color-picker-wrapper">
+                                <div class="color-preview-bg" id="preview-adv-fps-bg" style="background-color: #000000;"></div>
+                                <span class="color-value-text" id="text-adv-fps-bg">#000000</span>
+                                <input type="color" aria-label="Couleur fond" id="adv-fps-bg" value="#000000">
+                            </div>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label" data-i18n-key="adv.textColor">Couleur chiffres</span>
+                            <div class="color-picker-wrapper">
+                                <div class="color-preview-bg" id="preview-adv-fps-text" style="background-color: #ffffff;"></div>
+                                <span class="color-value-text" id="text-adv-fps-text">#ffffff</span>
+                                <input type="color" aria-label="Couleur chiffres" id="adv-fps-text" value="#ffffff">
+                            </div>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label">Couleur label</span>
+                            <div class="color-picker-wrapper">
+                                <div class="color-preview-bg" id="preview-adv-fps-label" style="background-color: #ffffff;"></div>
+                                <span class="color-value-text" id="text-adv-fps-label">#ffffff</span>
+                                <input type="color" aria-label="Couleur label" id="adv-fps-label" value="#ffffff">
+                            </div>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label" data-i18n-key="adv.borderColor">Couleur bordure</span>
+                            <div class="color-picker-wrapper">
+                                <div class="color-preview-bg" id="preview-adv-fps-border-color" style="background-color: #10b981;"></div>
+                                <span class="color-value-text" id="text-adv-fps-border-color">#10b981</span>
+                                <input type="color" aria-label="Couleur bordure" id="adv-fps-border-color" value="#10b981">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="customization-grid customization-grid-two">
+                        <div class="range-control"><span class="control-label" data-i18n-key="adv.radius">Arrondi</span><input type="range" aria-label="Arrondi"id="adv-fps-radius" min="0" max="40" value="4"><span id="val-fps-radius">4px</span></div>
+                        <div class="range-control"><span class="control-label" data-i18n-key="adv.opacity">OpacitÃ©</span><input type="range" aria-label="OpacitÃ©"id="adv-fps-opacity" min="0" max="100" value="100"><span id="val-fps-opacity">100%</span></div>
+                        <div class="range-control"><span class="control-label" data-i18n-key="adv.fontSize">Taille chiffres</span><input type="range" aria-label="Taille chiffres"id="adv-fps-font" min="50" max="220" value="100"><span id="val-fps-font">100%</span></div>
+                        <div class="range-control"><span class="control-label">Taille label</span><input type="range" aria-label="Taille label"id="adv-fps-label-font" min="50" max="200" value="100"><span id="val-fps-label-font">100%</span></div>
+                        <div class="range-control"><span class="control-label" data-i18n-key="adv.border">Bordure</span><input type="range" aria-label="Bordure"id="adv-fps-border" min="0" max="12" value="0"><span id="val-fps-border">0px</span></div>
+                        <div class="range-control"><span class="control-label" data-i18n-key="adv.shadow">Ombre</span><input type="range" aria-label="Ombre"id="adv-fps-shadow" min="0" max="50" value="0"><span id="val-fps-shadow">0px</span></div>
+                        <div class="range-control"><span class="control-label">Padding</span><input type="range" aria-label="Padding"id="adv-fps-padding" min="0" max="32" value="0"><span id="val-fps-padding">0px</span></div>
+                        <div class="range-control"><span class="control-label">OpacitÃ© label</span><input type="range" aria-label="OpacitÃ© label"id="adv-fps-label-opacity" min="0" max="100" value="80"><span id="val-fps-label-opacity">80%</span></div>
+                    </div>
+
+                    <button class="btn btn-danger btn-mini" id="reset-fps-style">
+                        <i class="fa-solid fa-rotate-left"></i> <span data-i18n-key="btn.resetStyle">RÃ©initialiser le style</span>
+                    </button>
+                    <!-- Feature 8: Input lag estimÃ© -->
+                    <div class="control-row" style="margin-top:12px;">
+                        <div>
+                            <div class="control-label" id="lbl-show-input-lag">Afficher l'input lag estimÃ©</div>
+                            <div class="control-desc">Mesure le dÃ©lai entre appui touche et frame rAF (ms).</div>
+                        </div>
+                        <label class="switch"><input type="checkbox" id="show-input-lag" aria-labelledby="lbl-show-input-lag"><span class="slider"></span></label>
+                    </div>
+                </div>
+
+                <div class="customization-panel" id="custom-panel-images" data-customization-panel="images">
+                    <div class="customization-panel-title">
+                        <i class="fa-solid fa-image"></i>
+                        <span data-i18n-key="card.bgImages">Images de Fond</span>
+                    </div>
+
+                    <div class="customization-grid">
+                        <div>
+                            <div class="style-label" data-i18n-key="label.bgTimer">Fond Timer</div>
+                            <div class="upload-row"><input type="file" id="bg-timer-upload" accept="image/*" style="display:none;"><button class="btn btn-mini upload-btn" id="upload-bg-timer"><i class="fa-solid fa-upload"></i> <span data-i18n-key="btn.upload">Importer</span></button><div id="bg-timer-preview" class="preview-box"></div><button class="btn btn-danger btn-mini" id="reset-bg-timer" aria-label="RÃ©initialiser le fond timer" data-i18n-aria="btn.reset"><i class="fa-solid fa-trash"></i></button></div>
+                        </div>
+                        <div>
+                            <div class="style-label" data-i18n-key="label.bgFps">Fond FPS</div>
+                            <div class="upload-row"><input type="file" id="bg-fps-upload" accept="image/*" style="display:none;"><button class="btn btn-mini upload-btn" id="upload-bg-fps"><i class="fa-solid fa-upload"></i> <span data-i18n-key="btn.upload">Importer</span></button><div id="bg-fps-preview" class="preview-box"></div><button class="btn btn-danger btn-mini" id="reset-bg-fps" aria-label="RÃ©initialiser le fond FPS" data-i18n-aria="btn.reset"><i class="fa-solid fa-trash"></i></button></div>
+                        </div>
+                        <div>
+                            <div class="style-label" data-i18n-key="label.bgKeysInactive">Fond Touches (Inactives)</div>
+                            <div class="upload-row"><input type="file" id="bg-keys-upload" accept="image/*" style="display:none;"><button class="btn btn-mini upload-btn" id="upload-bg-keys"><i class="fa-solid fa-upload"></i> <span data-i18n-key="btn.upload">Importer</span></button><div id="bg-keys-preview" class="preview-box"></div><button class="btn btn-danger btn-mini" id="reset-bg-keys" aria-label="RÃ©initialiser le fond touches inactives" data-i18n-aria="btn.reset"><i class="fa-solid fa-trash"></i></button></div>
+                        </div>
+                        <div>
+                            <div class="style-label" data-i18n-key="label.bgKeysActive">Fond Touches (Actives)</div>
+                            <div class="upload-row"><input type="file" id="bg-keys-active-upload" accept="image/*" style="display:none;"><button class="btn btn-mini upload-btn" id="upload-bg-keys-active"><i class="fa-solid fa-upload"></i> <span data-i18n-key="btn.upload">Importer</span></button><div id="bg-keys-active-preview" class="preview-box"></div><button class="btn btn-danger btn-mini" id="reset-bg-keys-active" aria-label="RÃ©initialiser le fond touches actives" data-i18n-aria="btn.reset"><i class="fa-solid fa-trash"></i></button></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="customization-panel" id="custom-panel-sound" data-customization-panel="sound">
+                    <div class="customization-panel-title">
+                        <i class="fa-solid fa-volume-high"></i>
+                        <span data-i18n-key="card.keySound">Son des Touches</span>
+                    </div>
+                    <div class="control-row">
+                        <div>
+                            <div class="control-label" id="lbl-keySound" data-i18n-key="label.keySoundToggle">Activer le son</div>
+                            <div class="control-desc" data-i18n-key="desc.keySoundToggle">Joue un son personnalisÃ© Ã  chaque touche.</div>
+                        </div>
+                        <label class="switch"><input type="checkbox" id="keySoundToggle" aria-labelledby="lbl-keySound"><span class="slider"></span></label>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <div class="style-label" data-i18n-key="label.keySoundFile">Fichier audio</div>
+                        <div class="upload-row">
+                            <input type="file" id="key-sound-upload" accept="audio/*" style="display:none;">
+                            <button class="btn btn-mini upload-btn" id="upload-key-sound"><i class="fa-solid fa-upload"></i> <span data-i18n-key="btn.uploadSound">Importer</span></button>
+                            <div id="key-sound-filename" class="control-desc" style="flex: 1; text-align: right;" data-i18n-key="label.keySoundNone">Aucun</div>
+                            <button class="btn btn-mini" id="test-key-sound" style="width: auto;"><i class="fa-solid fa-play"></i> <span data-i18n-key="btn.preview">Test</span></button>
+                            <button class="btn btn-danger btn-mini" id="reset-key-sound" style="width: auto;" aria-label="RÃ©initialiser le son des touches" data-i18n-aria="btn.reset"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="control-row" style="margin-top: 10px;">
+                        <div class="control-label" data-i18n-key="label.keySoundVolume">Volume</div>
+                        <input type="range" id="keySoundVolume" min="0" max="100" value="60" style="width:60%">
+                        <span id="val-keySoundVolume" style="min-width:50px;text-align:right;">60%</span>
+                    </div>
+                </div>
+
+                <div class="customization-panel" id="custom-panel-font" data-customization-panel="font">
+                    <div class="customization-panel-title">
+                        <i class="fa-solid fa-font"></i>
+                        <span data-i18n-key="card.timerFont">Police du Timer</span>
+                    </div>
+                    <div class="control-row">
+                        <span class="control-label" style="font-size:12px;" data-i18n-key="label.fontFamily">Police</span>
+                        <select id="timerFontSelect" style="max-width:220px;">
+                            <option value="default" data-i18n-key="font.default">Calibri/Arial (DÃ©faut)</option>
+                            <option value="monospace">Monospace</option>
+                            <option value="'Roboto Mono', monospace">Roboto Mono</option>
+                            <option value="'Press Start 2P', cursive">Press Start 2P (Pixel)</option>
+                            <option value="'Inter', sans-serif">Inter</option>
+                            <option value="'Orbitron', sans-serif">Orbitron (Sci-Fi)</option>
+                        </select>
+                    </div>
+                    <p style="font-size:11px; color:var(--text-muted); margin-top:6px;" data-i18n-key="desc.fontLoader">Charge Google Fonts si non dispo dans ton systÃ¨me.</p>
+                    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+                        <div class="style-label" data-i18n-key="label.customFont">Police PersonnalisÃ©e (Fichier)</div>
+                        <div class="upload-row">
+                            <input type="file" id="custom-font-upload" accept=".ttf,.otf,.woff,.woff2" style="display:none;">
+                            <button class="btn btn-mini upload-btn" id="upload-custom-font"><i class="fa-solid fa-font"></i> <span data-i18n-key="btn.uploadFont">Charger .ttf/.otf</span></button>
+                            <div id="custom-font-filename" class="control-desc" style="flex: 1; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 160px;" data-i18n-key="label.fontNone">Aucune</div>
+                            <button class="btn btn-danger btn-mini" id="reset-custom-font" style="width: auto;" aria-label="RÃ©initialiser la police personnalisÃ©e" data-i18n-aria="btn.reset"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                        <p style="font-size:10px; color:var(--t3); margin-top:4px;" data-i18n-key="desc.customFont">AppliquÃ© au Timer et aux Touches Visuelles.</p>
+                    </div>
+                </div>
+
+                <div class="customization-panel" id="custom-panel-effects" data-customization-panel="effects">
+                    <div class="customization-panel-title">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>Effets Timer</span>
+                    </div>
+                    <div class="customization-grid">
+                        <div class="control-row">
+                            <span class="control-label" id="lbl-rgbTimer" style="font-size:13px;" data-i18n-key="label.rgbEnable">Activer le mode RGB</span>
+                            <label class="switch"><input type="checkbox" id="rgbTimerToggle" aria-labelledby="lbl-rgbTimer"><span class="slider"></span></label>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label" style="font-size:12px;" data-i18n-key="label.rgbSpeed">Vitesse RGB</span>
+                            <input type="range" id="rgbTimerSpeed" min="1" max="10" value="5" style="width:55%;">
+                            <span id="val-rgbSpeed" style="min-width:30px;text-align:right;">5</span>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label" id="lbl-livesplitTheme" style="font-size:13px;" data-i18n-key="label.livesplitEnable">Activer le style LiveSplit</span>
+                            <label class="switch"><input type="checkbox" id="livesplitThemeToggle" aria-labelledby="lbl-livesplitTheme"><span class="slider"></span></label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+                        <div class="style-label">Watermark Timer</div>
+                        <div class="control-row" style="margin-top:6px;">
+                            <input type="text" id="volt-watermark-input" maxlength="30" placeholder="Texte watermark (vide = masquÃ©)" aria-label="Texte watermark du timer" style="flex:1;padding:5px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border);background:var(--input-bg,#1a1a2e);color:var(--text);">
+                        </div>
+                        <p style="font-size:10px;color:var(--text-muted);margin-top:4px;">Texte discret affichÃ© sous le timer. Max 30 caractÃ¨res.</p>
+                    </div>
+                    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+                        <div class="control-row">
+                            <span class="control-label" id="lbl-deathCounter" style="font-size:13px;">Compteur morts/essais</span>
+                            <label class="switch"><input type="checkbox" id="deathCounterToggle" aria-labelledby="lbl-deathCounter" checked><span class="slider"></span></label>
+                        </div>
+                        <p style="font-size:10px;color:var(--text-muted);margin-top:2px;">Affiche â˜  morts Â· essais sous le timer (rÃ©initialisÃ© Ã  chaque page).</p>
+                    </div>
+                    <div id="timerColorsStaticCard" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+                        <div class="style-label" data-i18n-key="card.timerColors">Couleurs du Timer</div>
+                        <div class="grid-3">
+                            <div><div class="style-label" data-i18n-key="desc.colorRunning">En cours</div><div class="color-picker-wrapper"><div class="color-preview-bg" id="preview-colorRunning" style="background-color: #FFFFFF;"></div><span class="color-value-text" id="text-colorRunning">#FFFFFF</span><input type="color" id="colorRunning" class="color-picker" value="#FFFFFF"></div></div>
+                            <div><div class="style-label" data-i18n-key="desc.colorPaused">Pause</div><div class="color-picker-wrapper"><div class="color-preview-bg" id="preview-colorPaused" style="background-color: #FFFFFF;"></div><span class="color-value-text" id="text-colorPaused">#FFFFFF</span><input type="color" id="colorPaused" class="color-picker" value="#FFFFFF"></div></div>
+                            <div><div class="style-label" data-i18n-key="desc.colorStopped">ArrÃªt</div><div class="color-picker-wrapper"><div class="color-preview-bg" id="preview-colorStopped" style="background-color: #FFFFFF;"></div><span class="color-value-text" id="text-colorStopped">#FFFFFF</span><input type="color" id="colorStopped" class="color-picker" value="#FFFFFF"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-danger" id="resetAllCustom" style="margin-top:12px;">
+                    <i class="fa-solid fa-rotate-left"></i> <span data-i18n-key="btn.resetAll">RÃ©initialiser tous les rÃ©glages</span>
+                </button>
+            </div>
+
+            <!-- â”€â”€ EXPORT / IMPORT PRESET â”€â”€ -->
+            <div class="card" id="volt-preset-export-card" style="margin-top:10px;">
+                <div class="card-header">
+                    <span class="card-title" data-i18n-key="preset.exportTitle">Exporter / Importer un Preset</span>
+                </div>
+                <p class="control-desc" data-i18n-key="preset.exportDesc" style="margin-bottom:10px;">Partagez votre configuration complÃ¨te (timer, touches, thÃ¨me, overlays).</p>
+                <div class="grid-2">
+                    <button class="btn btn-primary" id="volt-export-preset">
+                        <i class="fa-solid fa-download"></i> <span data-i18n-key="btn.exportPreset">Exporter mon preset</span>
+                    </button>
+                    <button class="btn" id="volt-import-preset">
+                        <i class="fa-solid fa-upload"></i> <span data-i18n-key="btn.importPreset">Importer un preset</span>
+                    </button>
+                </div>
+                <input type="file" id="volt-import-preset-file" accept=".json" style="display:none;" aria-hidden="true">
+            </div>
+
+            <!-- â”€â”€ PROFILS OVERLAY â”€â”€ -->
+            <div class="card" id="volt-overlay-profiles-card" style="margin-top:10px;">
+                <div class="card-header">
+                    <span class="card-title" data-i18n-key="overlay.profile.title">Profils Overlay</span>
+                </div>
+                <p class="control-desc" data-i18n-key="overlay.profile.desc" style="margin-bottom:10px;">Sauvegardez jusqu'Ã  3 configurations overlay et basculez entre elles.</p>
+                <div class="volt-overlay-profiles-grid">
+                    <!-- Slot 0 : DÃ©faut -->
+                    <div class="volt-profile-slot" data-profile-slot="0">
+                        <div class="volt-profile-slot-name-row">
+                            <input type="text" class="volt-profile-name-input" data-slot="0" maxlength="20" placeholder="DÃ©faut" aria-label="Nom profil 1">
+                        </div>
+                        <div class="volt-profile-slot-actions">
+                            <button class="btn btn-mini volt-profile-save-btn" data-slot="0">
+                                <i class="fa-solid fa-floppy-disk"></i> <span data-i18n-key="btn.saveProfile">Sauvegarder</span>
+                            </button>
+                            <button class="btn btn-mini btn-primary volt-profile-load-btn" data-slot="0">
+                                <i class="fa-solid fa-play"></i> <span data-i18n-key="btn.loadProfile">Charger</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Slot 1 : Profil 2 -->
+                    <div class="volt-profile-slot" data-profile-slot="1">
+                        <div class="volt-profile-slot-name-row">
+                            <input type="text" class="volt-profile-name-input" data-slot="1" maxlength="20" placeholder="Profil 2" aria-label="Nom profil 2">
+                        </div>
+                        <div class="volt-profile-slot-actions">
+                            <button class="btn btn-mini volt-profile-save-btn" data-slot="1">
+                                <i class="fa-solid fa-floppy-disk"></i> <span data-i18n-key="btn.saveProfile">Sauvegarder</span>
+                            </button>
+                            <button class="btn btn-mini btn-primary volt-profile-load-btn" data-slot="1">
+                                <i class="fa-solid fa-play"></i> <span data-i18n-key="btn.loadProfile">Charger</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Slot 2 : Profil 3 -->
+                    <div class="volt-profile-slot" data-profile-slot="2">
+                        <div class="volt-profile-slot-name-row">
+                            <input type="text" class="volt-profile-name-input" data-slot="2" maxlength="20" placeholder="Profil 3" aria-label="Nom profil 3">
+                        </div>
+                        <div class="volt-profile-slot-actions">
+                            <button class="btn btn-mini volt-profile-save-btn" data-slot="2">
+                                <i class="fa-solid fa-floppy-disk"></i> <span data-i18n-key="btn.saveProfile">Sauvegarder</span>
+                            </button>
+                            <button class="btn btn-mini btn-primary volt-profile-load-btn" data-slot="2">
+                                <i class="fa-solid fa-play"></i> <span data-i18n-key="btn.loadProfile">Charger</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="colorlab" class="view-section">
+            <div class="section-header">
+                <div class="section-title" data-i18n-key="section.colorlab.title">Color Lab</div>
+                <div class="section-subtitle" data-i18n-key="section.colorlab.subtitle">RÃ©glages panneau NVIDIA pour les
+                    couleurs</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header"><span class="card-title" data-i18n-key="card.colorLab"> RÃ©glages
+                        Couleurs</span></div>
+
+                <div class="control-row">
+                    <div>
+                        <div class="control-label" data-i18n-key="label.colorLabEnable">Activer le filtre</div>
+                        <div class="control-desc" data-i18n-key="desc.colorLabEnable">Active les rÃ©glages de couleur sur
+                            le jeu.</div>
+                    </div>
+                    <label class="switch"><input type="checkbox" id="colorLabEnabled" aria-label="Color Lab"><span
+                            class="slider"></span></label>
+                </div>
+
+                <div class="control-row">
+                    <div class="control-label" id="lbl-colorLabScope" data-i18n-key="label.colorLabScope">Appliquer</div>
+                    <label class="switch"><input type="checkbox" id="colorLabCanvasOnly" aria-labelledby="lbl-colorLabScope"><span
+                            class="slider"></span></label>
+                </div>
+
+                <div class="control-row">
+                    <span class="control-label" data-i18n-key="label.colorLabBrightness">LuminositÃ©</span>
+                    <input type="range" id="colorLabBrightness" min="50" max="150" value="100" aria-label="LuminositÃ©" style="width:60%">
+                    <span id="val-colorLabBrightness" style="min-width:50px;text-align:right;">100%</span>
+                </div>
+                <div class="control-row">
+                    <span class="control-label" data-i18n-key="label.colorLabContrast">Contraste</span>
+                    <input type="range" id="colorLabContrast" min="50" max="150" value="100" aria-label="Contraste" style="width:60%">
+                    <span id="val-colorLabContrast" style="min-width:50px;text-align:right;">100%</span>
+                </div>
+                <div class="control-row">
+                    <span class="control-label" data-i18n-key="label.colorLabSaturation">Saturation</span>
+                    <input type="range" id="colorLabSaturation" min="0" max="200" value="100" aria-label="Saturation" style="width:60%">
+                    <span id="val-colorLabSaturation" style="min-width:50px;text-align:right;">100%</span>
+                </div>
+                <div class="control-row">
+                    <span class="control-label" data-i18n-key="label.colorLabHue">Teinte</span>
+                    <input type="range" id="colorLabHue" min="-180" max="180" value="0" aria-label="Teinte" style="width:60%">
+                    <span id="val-colorLabHue" style="min-width:50px;text-align:right;">0Â°</span>
+                </div>
+
+                <div class="grid-2" style="margin-top: 12px;">
+                    <button class="btn" id="resetColorLab" data-i18n-key="btn.resetFilters">RÃ©initialiser les
+                        filtres</button>
+                    <button class="btn btn-primary" id="applyColorLab"
+                        data-i18n-key="btn.applyFilters">Appliquer</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="media" class="view-section">
+            <div class="section-header">
+                <div class="section-title" data-i18n-key="section.media.title">MÃ©dia</div>
+                <div class="section-subtitle" data-i18n-key="section.media.subtitle">Audio et Musique</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header"><span class="card-title" data-i18n-key="card.volume">Volume Global du
+                        Jeu</span></div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <i class="fa-solid fa-volume-high" style="color: var(--text-muted);"></i>
+                    <input type="range" id="volumeSlider" class="slider-range" min="0" max="100" aria-label="Volume global du jeu" style="flex: 1;">
+                    <span id="volumeValue"
+                        style="font-weight: 700; width: 45px; text-align: right; color: var(--accent);">100%</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header"><span class="card-title" data-i18n-key="card.soundcloud">Lecteur
+                        SoundCloud</span></div>
+                <input type="text" id="soundcloudUrl" placeholder="URL de la Playlist..." style="margin-bottom: 12px;"
+                    data-i18n-placeholder="placeholder.playlist">
+                <button class="btn btn-primary" id="loadSoundcloudPlaylist"><i class="fa-solid fa-play"></i> <span
+                        data-i18n-key="btn.launchPlayer">Lancer le Player</span></button>
+                <div id="music-embed-container"
+                    style="margin-top: 8px; font-size: 11px; color: var(--text-muted); text-align: center;"
+                    data-i18n-key="desc.soundcloud">Ouvre une fenÃªtre pop-up dÃ©diÃ©e.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- âœ‚ MODALE LUCKY BOX -->
+    <div id="lucky-box-reward-modal"></div>
+
+    <!-- âœ‚ MODALE ROUE CHANCEUX -->
+
+    <div id="volt-spin-modal" class="language-modal hidden" role="dialog" aria-modal="true" aria-labelledby="volt-spin-modal-title">
+        <div class="language-backdrop" id="volt-spin-backdrop"></div>
+        <div class="volt-spin-card">
+            <button class="volt-spin-close" id="volt-spin-close" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+            <div class="volt-spin-header">
+                <div class="volt-spin-title" id="volt-spin-modal-title">
+                    <i class="fa-solid fa-star" style="color:#f59e0b;margin-right:6px;"></i>
+                    <span data-i18n-key="spin.title">Roue de la Chance</span>
+                </div>
+                <div class="volt-spin-subtitle" data-i18n-key="spin.subtitle">Un spin gratuit chaque semaine !</div>
+            </div>
+
+            <div class="volt-wheel-wrap">
+                <!-- Pointeur -->
+                <div class="volt-wheel-pointer"></div>
+                <!-- La roue -->
+                <div class="volt-wheel-container">
+                    <div class="volt-wheel" id="volt-wheel">
+                        <!-- Labels injectÃ©s par JS -->
+                        <div class="volt-wheel-labels" id="volt-wheel-labels"></div>
+                    </div>
+                </div>
+                <!-- Reflet brillant -->
+                <div class="volt-wheel-shine"></div>
+            </div>
+
+            <!-- CTA / countdown -->
+            <div class="volt-spin-cta">
+                <button class="volt-spin-btn" id="volt-spin-btn" disabled>
+                    <i class="fa-solid fa-rotate"></i>
+                    <span id="volt-spin-btn-label" data-i18n-key="spin.btn.loading">Chargementâ€¦</span>
+                </button>
+                <div class="volt-spin-countdown" id="volt-spin-countdown" style="display:none;"></div>
+            </div>
+
+            <!-- RÃ©sultat -->
+            <div class="volt-spin-result" id="volt-spin-result" style="display:none;">
+                <div class="volt-spin-result-inner" id="volt-spin-result-inner"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- âœ‚ MODALE DE RECADRAGE -->
+
+    <div id="cropModal" class="language-modal hidden" role="dialog" aria-modal="true" aria-labelledby="cropModalTitle">
+        <div class="language-backdrop"></div>
+        <div class="language-card" style="width: 480px;">
+            <div class="card-header">
+                <div class="language-title" id="cropModalTitle" data-i18n-key="modal.cropTitle">Modifier l'image</div>
+                <i class="fa-solid fa-xmark" id="cropCancelX" style="cursor: pointer;"></i>
+            </div>
+
+            <!-- ZONE DE RENDU CANEVAS -->
+            <div id="cropTargetWrapper"
+                style="position: relative; width: 100%; height: 280px; background: #000; border-radius: 12px; overflow: hidden; cursor: move; border: 1px solid var(--border);">
+                <canvas id="cropCanvas" style="position: absolute; top: 0; left: 0;"></canvas>
+                <div id="cropOverlay"
+                    style="position: absolute; inset: 0; background: rgba(0,0,0,0.4); pointer-events: none; z-index: 5;">
+                    <div id="cropMask" class="crop-mask-circle"></div>
+                </div>
+            </div>
+
+            <!-- SLIDER DE ZOOM -->
+            <div style="margin: 24px 0; display: flex; align-items: center; gap: 15px;">
+                <input type="range" id="cropZoomSlider" min="1" max="3" step="0.01" value="1">
+            </div>
+
+            <!-- ACTIONS -->
+            <div style="display: flex; gap: 12px;">
+                <button class="btn" id="cropCancelBtn" data-i18n-key="btn.cancel">Annuler</button>
+                <button class="btn btn-primary" id="cropApplyBtn" data-i18n-key="btn.apply">Appliquer</button>
+            </div>
+        </div>
+    </div>
+
+    <!--  MODALE DE CONFIRMATION -->
+    <div id="confirmModal" class="language-modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+        <div class="language-backdrop"></div>
+        <div class="language-card">
+            <div id="confirmModalIcon" style="font-size: 40px; margin-bottom: 15px; color: var(--danger);"></div>
+            <div class="language-title" id="confirmModalTitle" data-i18n-key="modal.title">Attention</div>
+            <div class="language-subtitle" id="confirmModalDesc" data-i18n-key="modal.desc">Voulez-vous vraiment
+                continuer ?</div>
+            <div class="language-actions">
+                <button class="btn" id="confirmCancelBtn" data-i18n-key="btn.cancel">Annuler</button>
+                <button class="btn btn-danger" id="confirmAcceptBtn" data-i18n-key="btn.confirm">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="statusToast" class="status-toast" role="status" aria-live="polite" aria-atomic="true">
+        <span id="toastMessage">Action effectuÃ©e</span>
+    </div>
+
+
+
+
+
+    <!--  DUEL ACTIVE BAR (injected by content.js) -->
+    <!-- This bar is rendered inside the game page by content.js -->
+
+    <!-- AUTH GATE OVERLAY -->
+    <div id="auth-gate-disabled" style="
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(26, 24, 22, 0.7);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        overflow: hidden;
+    ">
+        <!-- Auth card -->
+        <div id="auth-gate-card" style="
+            position: relative;
+            width: 420px;
+            max-width: 94vw;
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 14px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+            animation: gateSlideIn 0.3s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+            font-family: 'Inter', sans-serif;
+        ">
+            <!-- Common Error Message -->
+            <div id="gate-error"
+                style="display:none; background:rgba(196,92,92,0.08); border-bottom:1px solid rgba(196,92,92,0.15); padding:12px 20px; font-size:13px; color:#c45c5c; align-items:center; gap:8px;">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span id="gate-error-text"></span>
+            </div>
+
+            <!-- LOGIN VIEW -->
+            <div id="gate-login-form" style="padding: 32px 36px;">
+                <div style="font-size: 22px; font-weight: 700; color: #1a1816; margin-bottom: 4px;">Sign In</div>
+                <div style="font-size: 13px; color: #8a837c; margin-bottom: 28px;">Welcome back to Volt</div>
+
+                <div style="margin-bottom: 18px;">
+                    <label
+                        style="display:block; font-size:12px; font-weight:600; color:#5c5652; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Email</label>
+                    <input type="email" id="gate-login-email" data-i18n-placeholder="auth.emailPlaceholder" placeholder="you@email.com" style="
+                        width:100%; height:44px; background:#ffffff !important; border:1px solid rgba(193,127,89,0.3) !important;
+                        border-radius:8px; padding:0 14px; color:#1a1816 !important;
+                        font-size:14px; outline:none; transition:all .2s;
+                    ">
+                </div>
+
+                <div style="margin-bottom: 28px;">
+                    <label
+                        style="display:block; font-size:12px; font-weight:600; color:#5c5652; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Password</label>
+                    <input type="password" id="gate-login-pwd" autocomplete="current-password" data-i18n-placeholder="auth.enterPassword" placeholder="Enter your password" style="
+                        width:100%; height:44px; background:#ffffff !important; border:1px solid rgba(193,127,89,0.3) !important;
+                        border-radius:8px; padding:0 14px; color:#1a1816 !important;
+                        font-size:14px; outline:none; transition:all .2s;
+                    ">
+                </div>
+
+                <button id="gate-btn-login" style="
+                    width:100%; height:44px; background: #2d2926;
+                    border:none; border-radius:8px; color:#fff; font-size:14px; font-weight:600;
+                    cursor:pointer; transition:all .2s; margin-bottom: 10px;
+                ">
+                    Sign In
+                </button>
+                <div class="gate-divider">ou</div>
+                <button id="gate-btn-google-login" class="gate-google-btn">
+                    <svg width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    </svg>
+                    Continue with Google
+                </button>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px;">
+                    <a href="#" id="gate-forgot"
+                        style="color:#8a837c; text-decoration:none; transition:color .2s;">Forgot Password?</a>
+                    <a href="#" id="gate-go-register"
+                        style="color:#c17f59; font-weight:600; text-decoration:none; transition:color .2s;">Create an
+                        account</a>
+                </div>
+            </div>
+
+            <!-- REGISTER VIEW -->
+            <div id="gate-register-form" style="display:none; padding: 32px 36px;">
+                <div style="font-size: 22px; font-weight: 700; color: #1a1816; margin-bottom: 4px;">Create an account
+                </div>
+                <div style="font-size: 13px; color: #8a837c; margin-bottom: 24px;">Join the Volt community</div>
+
+                <div style="display:flex; align-items:center; gap:14px; margin-bottom:20px;">
+                    <div id="gate-avatar-preview" style="
+                        width:48px; height:48px; border-radius:10px; background:#f0ede8;
+                        border: 1px solid rgba(0,0,0,0.08); display:flex; align-items:center;
+                        justify-content:center; font-size:16px; color:#8a837c; flex-shrink:0; overflow:hidden;
+                    "><i class="fa-solid fa-user"></i></div>
+                    <div style="flex:1;">
+                        <button id="gate-avatar-pick-btn" style="
+                            padding:8px 14px; background:#f0ede8; border:1px solid rgba(0,0,0,0.08);
+                            border-radius:6px; color:#5c5652; font-size:12px; font-weight:500; cursor:pointer;
+                            transition:all .2s;
+                        ">Choose a photo (Optional)</button>
+                        <input type="file" id="gate-avatar-file" accept="image/*" style="display:none;">
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:10px; margin-bottom:16px;">
+                    <div style="flex:1;">
+                        <label
+                            style="display:block; font-size:12px; font-weight:600; color:#5c5652; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Username</label>
+                        <input type="text" id="gate-reg-pseudo" data-i18n-placeholder="auth.usernamePlaceholder" placeholder="Username" style="
+                            width:100%; height:44px; background:#ffffff !important; border:1px solid rgba(193,127,89,0.3) !important;
+                            border-radius:8px; padding:0 14px; color:#1a1816 !important;
+                            font-size:14px; outline:none; transition:all .2s;
+                        ">
+                    </div>
+                    <div style="flex:1;">
+                        <label
+                            style="display:block; font-size:12px; font-weight:600; color:#5c5652; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Email</label>
+                        <input type="email" id="gate-reg-email" data-i18n-placeholder="auth.emailPlaceholder" placeholder="you@email.com" style="
+                            width:100%; height:44px; background:#ffffff !important; border:1px solid rgba(193,127,89,0.3) !important;
+                            border-radius:8px; padding:0 14px; color:#1a1816 !important;
+                            font-size:14px; outline:none; transition:all .2s;
+                        ">
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:10px; margin-bottom:24px;">
+                    <div style="flex:1;">
+                        <label
+                            style="display:block; font-size:12px; font-weight:600; color:#5c5652; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Password</label>
+                        <input type="password" id="gate-reg-pwd" autocomplete="new-password" data-i18n-placeholder="auth.passwordPlaceholder" placeholder="Password" style="
+                            width:100%; height:44px; background:#ffffff !important; border:1px solid rgba(193,127,89,0.3) !important;
+                            border-radius:8px; padding:0 14px; color:#1a1816 !important;
+                            font-size:14px; outline:none; transition:all .2s;
+                        ">
+                    </div>
+                    <div style="flex:1;">
+                        <label
+                            style="display:block; font-size:12px; font-weight:600; color:#5c5652; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Confirm</label>
+                        <input type="password" id="gate-reg-confirm" autocomplete="new-password" data-i18n-placeholder="auth.confirmPasswordPlaceholder" placeholder="Confirm" style="
+                            width:100%; height:44px; background:#ffffff !important; border:1px solid rgba(193,127,89,0.3) !important;
+                            border-radius:8px; padding:0 14px; color:#1a1816 !important;
+                            font-size:14px; outline:none; transition:all .2s;
+                        ">
+                    </div>
+                </div>
+
+                <button id="gate-btn-register" style="
+                    width:100%; height:44px; background: #2d2926;
+                    border:none; border-radius:8px; color:#fff; font-size:14px; font-weight:600;
+                    cursor:pointer; transition:all .2s; margin-bottom: 10px;
+                ">
+                    Create Account
+                </button>
+                <div class="gate-divider">ou</div>
+                <button id="gate-btn-google-register" class="gate-google-btn">
+                    <svg width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    </svg>
+                    CrÃ©er avec Google
+                </button>
+
+                <div style="text-align:center; font-size:12px;">
+                    <a href="#" id="gate-go-login"
+                        style="color:#5c5652; text-decoration:none; transition:color .2s;">Already have an account?
+                        <span style="color:#c17f59; font-weight:600;">Sign In</span></a>
+                </div>
+            </div>
+
+            <!-- Verification pending -->
+            <div id="gate-verify-pending" style="display:none; text-align:center; padding: 36px;">
+                <i class="fa-solid fa-envelope-open-text"
+                    style="font-size:40px; color:#c17f59; margin-bottom:16px; display:block;"></i>
+                <div style="font-size:18px; font-weight:700; color:#1a1816; margin-bottom:8px;">Check your email</div>
+                <div style="font-size:13px; color:#8a837c; margin-bottom:24px; line-height:1.6;">A verification link has
+                    been sent.<br>Click it to activate your account.</div>
+                <button id="gate-btn-resend" style="
+                    width:100%; height:42px; background:rgba(193,127,89,0.1); border:1px solid rgba(193,127,89,0.2);
+                    border-radius:8px; color:#c17f59; font-size:13px; font-weight:600; cursor:pointer; margin-bottom:14px; transition:all .2s;
+                ">Resend link</button>
+                <div>
+                    <a href="#" id="gate-btn-signout" style="font-size:12px; color:#8a837c; text-decoration:none;">Sign
+                        Out</a>
+                </div>
+            </div>
+
+            <div id="gate-google-pseudo-form" style="display:none; padding: 32px 36px;">
+                <div style="font-size: 22px; font-weight: 700; color: #1a1816; margin-bottom: 4px;">Choisis ton pseudo</div>
+                <div id="gate-google-name-preview" style="font-size: 13px; color: #8a837c; margin-bottom: 24px;">Ton compte Google est connectÃ©.</div>
+                <label style="display:block; font-size:12px; font-weight:600; color:#5c5652; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Pseudo public</label>
+                <input type="text" id="gate-google-pseudo" placeholder="Ton pseudo" style="
+                    width:100%; height:44px; background:#ffffff !important; border:1px solid rgba(193,127,89,0.3) !important;
+                    border-radius:8px; padding:0 14px; color:#1a1816 !important;
+                    font-size:14px; outline:none; transition:all .2s; margin-bottom:18px;
+                ">
+                <button id="gate-btn-google-pseudo" style="
+                    width:100%; height:44px; background: #2d2926;
+                    border:none; border-radius:8px; color:#fff; font-size:14px; font-weight:600;
+                    cursor:pointer; transition:all .2s; margin-bottom: 10px;
+                ">Valider mon pseudo</button>
+                <button id="gate-google-pseudo-signout" style="
+                    width:100%; height:34px; background:transparent; border:none; color:#8a837c;
+                    font-size:12px; cursor:pointer;
+                ">Changer de compte Google</button>
+            </div>
+
+            <!-- RESET PASSWORD VIEW -->
+            <div id="gate-reset-form" style="display:none; padding: 32px 36px;">
+                <div style="font-size: 22px; font-weight: 700; color: #1a1816; margin-bottom: 4px;"
+                    data-i18n-key="auth.resetTitle">New password</div>
+                <div style="font-size: 13px; color: #8a837c; margin-bottom: 28px;" data-i18n-key="auth.resetDesc">Reset
+                    your secure access</div>
+
+                <div style="margin-bottom: 18px;">
+                    <label
+                        style="display:block; font-size:12px; font-weight:600; color:#5c5652; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;"
+                        data-i18n-key="auth.resetLabel">New password</label>
+                    <input type="password" id="gate-reset-pwd" autocomplete="new-password" data-i18n-placeholder="auth.enterNewPassword" placeholder="Enter new password" style="
+                        width:100%; height:44px; background:#f0ede8; border:1px solid rgba(0,0,0,0.08);
+                        border-radius:8px; padding:0 14px; color:#1a1816;
+                        font-size:14px; outline:none; transition:all .2s;
+                    ">
+                </div>
+
+                <div style="margin-bottom: 28px;">
+                    <label
+                        style="display:block; font-size:12px; font-weight:600; color:#5c5652; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;"
+                        data-i18n-key="auth.confirmLabel">Confirm password</label>
+                    <input type="password" id="gate-reset-confirm" autocomplete="new-password" data-i18n-placeholder="auth.confirmPasswordPlaceholder" placeholder="Confirm password" style="
+                        width:100%; height:44px; background:#f0ede8; border:1px solid rgba(0,0,0,0.08);
+                        border-radius:8px; padding:0 14px; color:#1a1816;
+                        font-size:14px; outline:none; transition:all .2s;
+                    ">
+                </div>
+
+                <button id="gate-btn-reset-submit" style="
+                    width:100%; height:44px; background: #2d2926;
+                    border:none; border-radius:8px; color:#fff; font-size:14px; font-weight:600;
+                    cursor:pointer; transition:all .2s; margin-bottom: 20px;
+                " data-i18n-key="auth.resetSubmit">
+                    Update password
+                </button>
+
+                <div style="text-align:center; font-size:12px;">
+                    <a href="#" id="gate-reset-cancel"
+                        style="color:#8a837c; text-decoration:none; transition:color .2s;">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END AUTH GATE -->
+
+    <style>
+        @keyframes gateSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        #auth-gate input:focus {
+            border-color: #c17f59 !important;
+            box-shadow: 0 0 0 3px rgba(193, 127, 89, 0.12) !important;
+        }
+
+        #gate-btn-login:hover,
+        #gate-btn-register:hover,
+        #gate-btn-reset-submit:hover {
+            background: #4a4541 !important;
+        }
+
+        #gate-avatar-pick-btn:hover {
+            background: rgba(193, 127, 89, 0.1) !important;
+            border-color: #c17f59 !important;
+            color: #c17f59 !important;
+        }
+
+        #auth-gate.gate-hidden {
+            animation: gateHide 0.25s ease-out forwards;
+        }
+
+        @keyframes gateHide {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            to {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+        }
+
+        .avatar-preview-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .avatar-preview {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            background: #f0ede8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: #8a837c;
+            font-size: 20px;
+        }
+
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .input-icon-wrapper {
+            position: relative;
+            margin-bottom: 14px;
+        }
+
+        .input-icon-wrapper i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8a837c;
+            font-size: 14px;
+        }
+
+        .input-icon-wrapper input {
+            padding-left: 40px !important;
+        }
+
+        .auth-tabs,
+        .auth-tab-btn {
+            display: flex;
+            background: #f0ede8;
+            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+
+        /* â”€â”€ Bouton Google â”€â”€ */
+        #gate-btn-google-login, #gate-btn-google-register {
+            width: 100%;
+            height: 48px;
+            background: #fff !important;
+            border: 2px solid rgba(0,0,0,0.18) !important;
+            border-radius: 10px !important;
+            color: #1a1816 !important;
+            font-size: 14px !important;
+            font-weight: 700 !important;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 20px;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 10px !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10) !important;
+            letter-spacing: 0.1px;
+        }
+        #gate-btn-google-login:hover, #gate-btn-google-register:hover {
+            background: #faf9f7 !important;
+            border-color: #c17f59 !important;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.13) !important;
+            transform: translateY(-2px);
+        }
+
+        .auth-tab-btn {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #8a837c;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .auth-tab-btn.active {
+            background: #fff;
+            color: #1a1816;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+
+
+    <style>
+        @keyframes shimmer-legend {
+            0% {
+                background-position: 0% center;
+            }
+
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        .premium-plan-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: default;
+        }
+
+        .premium-plan-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .premium-feature-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .feat-check {
+            flex-shrink: 0;
+            width: 16px;
+            text-align: center;
+            color: #22c55e;
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+        .feat-star {
+            color: #f59e0b;
+        }
+
+        .feat-elite {
+            color: #6366f1;
+        }
+
+        .premium-buy-btn {
+            transition: filter 0.2s, transform 0.15s;
+        }
+
+        .premium-buy-btn:hover {
+            filter: brightness(1.15);
+            transform: translateY(-1px);
+        }
+
+        .premium-buy-btn:active {
+            transform: translateY(0);
+        }
+
+        .premium-buy-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            filter: none;
+        }
+    </style>
+
+    <div id="languageModal" class="language-modal hidden" role="dialog" aria-modal="true" aria-labelledby="languageModalTitle">
+        <div class="language-backdrop"></div>
+        <div class="language-card">
+            <div class="language-title" id="languageModalTitle" data-i18n-key="language.title">Choisissez votre langue</div>
+            <div class="language-subtitle" data-i18n-key="language.subtitle">Pour la langue de la popup.</div>
+            <div class="language-options">
+                <button class="language-option" data-lang="fr">
+                    <span></span>
+                    <div>
+                        <div data-i18n-key="language.fr">FranÃ§ais</div>
+                        <div class="language-badge" data-i18n-key="language.frLabel">Par dÃ©faut</div>
+                    </div>
+                </button>
+                <button class="language-option" data-lang="en">
+                    <span></span>
+                    <div>
+                        <div data-i18n-key="language.en">English</div>
+                        <div class="language-badge" data-i18n-key="language.enLabel">International</div>
+                    </div>
+                </button>
+                <button class="language-option" data-lang="pt-BR">
+                    <span></span>
+                    <div>
+                        <div data-i18n-key="language.pt">PortuguÃªs (Brasil)</div>
+                        <div class="language-badge" data-i18n-key="language.ptLabel">Comunidade</div>
+                    </div>
+                </button>
+                <button class="language-option" data-lang="zh">
+                    <span></span>
+                    <div>
+                        <div data-i18n-key="language.zh">ä¸­æ–‡</div>
+                        <div class="language-badge" data-i18n-key="language.zhLabel">ç®€ä½“ä¸­æ–‡</div>
+                    </div>
+                </button>
+            </div>
+            <div class="language-actions">
+                <button class="btn" id="languageLater" data-i18n-key="language.later">Plus tard</button>
+                <button class="btn btn-primary" id="confirmLanguage" data-i18n-key="language.confirm">Valider</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL RÃ‰SUMÃ‰ DE SESSION -->
+    <div id="volt-session-recap-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.65);align-items:center;justify-content:center;">
+        <div style="background:var(--card-bg,#1a1b26);border:1px solid var(--border);border-radius:14px;padding:24px 20px;width:280px;max-width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.5);">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+                <span style="font-size:14px;font-weight:800;color:var(--t1);"><i class="fa-solid fa-stopwatch" style="color:var(--brand);"></i> RÃ©sumÃ© de session</span>
+                <button id="btn-session-recap-close" class="btn btn-mini" style="padding:4px 10px;font-size:11px;">Fermer</button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg-input);border-radius:8px;">
+                    <span style="font-size:12px;color:var(--t2);"><i class="fa-solid fa-clock" style="width:16px;color:var(--brand);"></i> DurÃ©e</span>
+                    <span id="recap-duration" style="font-size:13px;font-weight:700;color:var(--t1);">â€”</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg-input);border-radius:8px;">
+                    <span style="font-size:12px;color:var(--t2);"><i class="fa-solid fa-chart-line" style="width:16px;color:var(--accent);"></i> ELO</span>
+                    <span id="recap-elo" style="font-size:13px;font-weight:700;color:var(--t1);">â€”</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg-input);border-radius:8px;">
+                    <span style="font-size:12px;color:var(--t2);"><i class="fa-solid fa-coins" style="width:16px;color:#f59e0b;"></i> CrÃ©dits</span>
+                    <span id="recap-credits" style="font-size:13px;font-weight:700;color:var(--t1);">â€”</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg-input);border-radius:8px;">
+                    <span style="font-size:12px;color:var(--t2);"><i class="fa-solid fa-gamepad" style="width:16px;color:var(--success);"></i> Runs</span>
+                    <span id="recap-runs" style="font-size:13px;font-weight:700;color:var(--t1);">â€”</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="supabase-js.js"></script>
+    <script src="supabaseConfig.js"></script>
+    <script src="volt-helpers.js"></script>
+    <script src="volt-presets.js"></script>
+    <script src="volt_premium.js"></script>
+    <script src="volt-features.js"></script>
+    <script src="volt-features-ui.js"></script>
+    <script src="popup.js"></script>
+    <script src="admin_entry.js"></script>
+</body>
+
+</html>

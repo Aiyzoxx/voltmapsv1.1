@@ -1,0 +1,107 @@
+/* Bouton flottant */
+#nocoin-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100002;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #7c5cfc;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(124, 92, 252, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: white;
+  font-size: 22px;
+}
+#nocoin-fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(124, 92, 252, 0.7);
+}
+#nocoin-fab:active { transform: scale(0.95); }
+#nocoin-fab.dragging,
+#nocoin-fab.dragging:hover {
+  cursor: grabbing !important;
+  opacity: 0.85;
+  transform: scale(1.05) !important;
+  box-shadow: 0 8px 32px rgba(124, 92, 252, 0.8) !important;
+  transition: none !important;
+}
+
+/* Backdrop */
+#nocoin-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+#nocoin-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Conteneur de la modale */
+#nocoin-modal-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 100001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* La modale elle-même */
+#nocoin-modal {
+  width: 700px;
+  height: 540px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8);
+  transform: scale(0.92) translateY(16px);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  pointer-events: none;
+  border: 1px solid rgba(124, 92, 252, 0.3);
+}
+#nocoin-modal.open {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Bouton fermer */
+#nocoin-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 100002;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #8a8aaa;
+  font-size: 16px;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+#nocoin-close-btn:hover { background: rgba(255,255,255,0.15); color: #e8e8f0; }
+#nocoin-backdrop.open ~ #nocoin-modal-wrapper #nocoin-close-btn { display: flex; }
+
+/* Responsive */
+@media (max-width: 750px) {
+  #nocoin-modal { width: 95vw; height: 80vh; }
+}

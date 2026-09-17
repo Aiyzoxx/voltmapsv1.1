@@ -1,0 +1,151 @@
+.save-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 20000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Inter, 'Segoe UI', Arial, sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+    animation: 0.4s cubic-bezier(0.16, 1, 0.3, 1) fadeIn;
+}
+
+.save-popup-container {
+    background: rgba(20, 20, 20, 0.8);
+    border-radius: 28px;
+    width: 100%;
+    max-width: 420px;
+    padding: 36px 32px;
+    border: 1px solid rgba(124, 92, 252, 0.2);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 40px rgba(124, 92, 252, 0.15);
+    animation: 0.5s cubic-bezier(0.16, 1, 0.3, 1) slideUp;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle top glow */
+.save-popup-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 3px;
+    background: #7c5cfc;
+    box-shadow: 0 0 20px 4px rgba(124, 92, 252, 0.5);
+    border-radius: 0 0 4px 4px;
+}
+
+.save-popup-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffffff, #dcd4ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+}
+
+.save-popup-description {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.save-popup-features {
+    text-align: left;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 18px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.save-popup-features p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    margin: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+}
+
+.save-popup-features p::before {
+    content: "✓";
+    color: #7c5cfc;
+    font-weight: 900;
+    font-size: 1.1rem;
+    text-shadow: 0 0 10px rgba(124, 92, 252, 0.5);
+}
+
+.save-popup-warning {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
+    margin-top: 12px;
+    line-height: 1.5;
+}
+
+.save-popup-warning:last-of-type {
+    margin-top: 12px;
+    color: #7c5cfc;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; backdrop-filter: blur(0px); }
+    to { opacity: 1; backdrop-filter: blur(16px); }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.save-popup-loader {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border: 3px solid rgba(124, 92, 252, 0.2);
+    border-top-color: #7c5cfc;
+    border-radius: 50%;
+    animation: 0.8s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite spin;
+    margin: 20px auto 0;
+    box-shadow: 0 0 15px rgba(124, 92, 252, 0.3);
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 480px) {
+    .save-popup-container {
+        padding: 28px 24px;
+        max-width: 340px;
+    }
+    .save-popup-title {
+        font-size: 1.5rem;
+    }
+    .save-popup-features {
+        padding: 16px 20px;
+    }
+    .save-popup-features p {
+        font-size: 0.85rem;
+    }
+}

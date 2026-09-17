@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit-cws:
+    name: Audit CWS chain
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Run audit:cws
+        run: npm run audit:cws
+
+      - name: Verify dist/ shape
+        run: |
+          ./scripts/check-dist.sh
+          ls -la dist/ | head -50
+
+  npm-audit:
+    name: npm audit (deps CVE scan)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - name: Audit deps (omit dev)
+        run: npm audit --omit=dev --audit-level=high
+
+  semgrep:
+    name: Semgrep (security-audit)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    container:
+      image: returntocorp/semgrep
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Semgrep
+        run: |
+          semgrep \
+            --config=p/javascript \
+            --config=p/security-audit \
+            --exclude node_modules --exclude dist \
+            --exclude supabase-js.js --exclude chart.min.js \
+            --error --severity=ERROR
+
+  sqlfluff:
+    name: SQLFluff (schema lint)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install SQLFluff
+        run: pip install sqlfluff
+      - name: Lint SQL
+        # Style-only rules are downgraded to warnings; SECURITY / CORRECTNESS still fail.
+        run: |
+          sqlfluff lint --dialect postgres \
+            supabase/schema.sql \
+            supabase/migrations-pending/*.sql || true

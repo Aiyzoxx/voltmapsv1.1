@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c5cfc"/>
+      <stop offset="100%" style="stop-color:#5b3fd4"/>
+    </linearGradient>
+  </defs>
+  <!-- Ghost body -->
+  <path d="M10 32 C10 16 20 6 32 6 C44 6 54 16 54 32 L54 58 L46 50 L38 58 L30 50 L22 58 L14 50 L10 58 Z" fill="url(#g)"/>
+  <!-- Eyes -->
+  <circle cx="24" cy="28" r="5" fill="white"/>
+  <circle cx="40" cy="28" r="5" fill="white"/>
+  <circle cx="26" cy="30" r="2.5" fill="#1a0a3d"/>
+  <circle cx="42" cy="30" r="2.5" fill="#1a0a3d"/>
+</svg>

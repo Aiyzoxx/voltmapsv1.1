@@ -1,0 +1,17 @@
+{
+  "name": "Volt Maps",
+  "short_name": "Volt Maps",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e0e1a",
+  "theme_color": "#0e0e1a",
+  "description": "Subway Surfers - Maps d'entraînement",
+  "icons": [
+    {
+      "src": "/icon/volt_logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

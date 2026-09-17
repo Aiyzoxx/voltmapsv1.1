@@ -1,0 +1,21 @@
+<!doctype html> <html lang="en"> <head> <meta charset="utf-8"/> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,shrink-to-fit=no"/> <title>Subway Surfers: Buenos Aires | Voltmaps</title> <link rel="icon" type="image/svg+xml" href="/icon/subway/favicon.svg"> <link rel="icon" type="image/x-icon" href="/icon/subway/favicon.ico"> <link rel="shortcut icon" href="/icon/subway/favicon.ico" type="image/x-icon"> <link rel="stylesheet" href="css/save-popup.css"> <script> const urlParams = new URLSearchParams(window.location.search);
+        const isTraining = urlParams.get('mode') === 'training';
+
+        window.config = {
+            loader: "unity",
+            debug: false,
+            maxRatio: 16 / 9,
+            minRatio: 9 / 16,
+            title: "Buenos Aires | Voltmaps",
+            unityVersion: "2019.4.18f1",
+            unityWebglBuildUrl: isTraining
+                ? "/Build/6/6.json"
+                : "/Build/6/6_1.json",
+            fileSize: 42,
+        }; </script> </head> <body>
+    <script src="js/4399.js"></script> 
+<!-- Gaming Tools Suite -->
+<link rel="stylesheet" href="css/nocoin-modal.css">
+<script src="js/nocoin-storage.js"></script>
+<script src="js/nocoin-content.js"></script>
+<script src="js/poki-stubs.js"></script> <script src="js/master-loader.js"></script> </body> </html>

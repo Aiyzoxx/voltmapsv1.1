@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bienvenue sur Volt — Consentement</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --fg: #e6edf3;
+    --muted: #8b949e;
+    --border: #30363d;
+    --accent: #8b5cf6;
+    --accent-hover: #7c3aed;
+    --warn: #f97316;
+    --ok: #22c55e;
+    --danger: #ef4444;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    line-height: 1.5;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 720px;
+    width: 100%;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+  }
+  .logo {
+    text-align: center;
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.7rem;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .lead {
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+  h2 {
+    font-size: 1.05rem;
+    margin: 24px 0 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  ul { padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  .legal-link {
+    display: block;
+    text-align: center;
+    margin: 24px 0;
+    color: var(--accent);
+    text-decoration: underline;
+    font-size: 0.95rem;
+  }
+  .actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  button {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 10px;
+    border: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    font-family: inherit;
+  }
+  button:active { transform: translateY(1px); }
+  .btn-accept {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-accept:hover { background: var(--accent-hover); }
+  .btn-decline {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .btn-decline:hover { border-color: var(--danger); color: var(--danger); }
+  .footnote {
+    margin-top: 18px;
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-align: center;
+  }
+  .check-row {
+    background: rgba(99,102,241,0.06);
+    border: 1px solid rgba(99,102,241,0.2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .check-row input[type=checkbox] {
+    margin-top: 3px;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .check-row label {
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  .declined {
+    display: none;
+    text-align: center;
+    margin-top: 24px;
+    padding: 16px;
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 10px;
+    color: var(--danger);
+  }
+  .declined.show { display: block; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo" aria-hidden="true">⚡</div>
+    <h1 id="welcome-title">Bienvenue sur Volt Extension</h1>
+    <p class="lead" id="welcome-lead">Avant de commencer, nous avons besoin de votre consentement pour traiter certaines données.</p>
+
+    <h2 id="sec-collect-title">Ce que nous collectons</h2>
+    <ul id="sec-collect-list">
+      <li><strong>Email Google</strong> — uniquement si vous vous connectez (Google OAuth)</li>
+      <li><strong>Pseudo et activité de jeu</strong> — scores, runs, duels, achievements</li>
+      <li><strong>Adresse IP publique</strong> — pour la modération et la prévention des abus (les bans IP)</li>
+      <li><strong>Identifiant matériel (HWID)</strong> — empreinte SHA-256 anonyme (navigateur + langue + résolution + CPU + RAM) pour l'anti-triche</li>
+      <li><strong>Messages de chat</strong> — global, équipe, privés (modération + communauté)</li>
+    </ul>
+
+    <h2 id="sec-dont-title">Ce que nous NE faisons PAS</h2>
+    <ul id="sec-dont-list">
+      <li>Aucune publicité, aucun tracker tiers</li>
+      <li>Aucune revente de vos données</li>
+      <li>Aucun accès aux autres sites que vous visitez (extension limitée à 4 sites de jeu déclarés)</li>
+      <li>Aucun mot de passe stocké (auth via Google OAuth uniquement)</li>
+    </ul>
+
+    <h2 id="sec-rights-title">Vos droits</h2>
+    <ul id="sec-rights-list">
+      <li>Supprimer votre compte à tout moment (suppression différée 30j, annulable)</li>
+      <li>Exporter toutes vos données en JSON</li>
+      <li>Rectifier, vous opposer, limiter — contact <a href="mailto:privacy@webtvmedia.net" style="color:var(--accent);">privacy@webtvmedia.net</a></li>
+      <li>Plainte CNIL si nécessaire</li>
+    </ul>
+
+    <a href="https://glistening-entremet-9886d0.netlify.app/" target="_blank" rel="noopener noreferrer" class="legal-link" id="legal-link">
+      📄 Lire la politique de confidentialité complète
+    </a>
+
+    <div class="check-row">
+      <input type="checkbox" id="consent-checkbox">
+      <label for="consent-checkbox" id="consent-label">
+        J'ai lu la <a href="https://glistening-entremet-9886d0.netlify.app/" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">politique de confidentialité</a> et j'accepte la collecte de mon adresse IP, de mon identifiant matériel (HWID) et de mon activité de jeu pour le bon fonctionnement de l'extension (anti-triche, modération, classements).
+      </label>
+    </div>
+
+    <div class="actions">
+      <button class="btn-decline" id="btn-decline">Refuser</button>
+      <button class="btn-accept" id="btn-accept" disabled style="opacity:0.5;cursor:not-allowed;">Accepter et continuer</button>
+    </div>
+
+    <div class="footnote" id="welcome-footnote">
+      Vous pouvez retirer votre consentement à tout moment en désinstallant l'extension ou en supprimant votre compte depuis la section <em>Mes données (RGPD)</em>.
+    </div>
+
+    <div class="declined" id="declined-msg">
+      Vous avez refusé. L'extension ne collectera aucune donnée. Vous pouvez la désinstaller depuis <code>chrome://extensions</code>.
+      Si vous changez d'avis, rouvrez cette page depuis l'icône Volt dans la barre d'outils.
+    </div>
+  </div>
+
+  <script src="welcome.js"></script>
+</body>
+</html>

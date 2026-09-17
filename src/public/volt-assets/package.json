@@ -1,0 +1,36 @@
+{
+  "name": "volt-extension",
+  "version": "21.0.0",
+  "private": true,
+  "description": "VOLT browser extension — Chrome Web Store / Edge Add-ons source",
+  "main": "background.js",
+  "scripts": {
+    "build": "node obfuscate.js && node scripts/zip-dist.js",
+    "build:check": "node obfuscate.js --check-only",
+    "bundle": "./build.sh",
+    "bundle:analyze": "node scripts/bundle-analyze.js",
+    "dist": "./scripts/prepublish.sh && ./scripts/check-dist.sh",
+    "zip": "./scripts/prepublish.sh && ./scripts/check-dist.sh && cd dist && zip -r ../volt-extension-$(date +%Y%m%d).zip . -x '*.map'",
+    "audit:dist": "./scripts/check-dist.sh",
+    "bundle:dev": "./build.sh --dev",
+    "bundle:watch": "./build.sh --watch",
+    "test": "npm run syntax && node --test tests/*.test.js && node scripts/validate.js && node scripts/i18n-backfill.js --check",
+    "test:unit:node": "node --test tests/*.test.js",
+    "i18n:check": "node scripts/i18n-backfill.js --check",
+    "i18n:fix": "node scripts/i18n-backfill.js",
+    "lint": "eslint popup.js background.js popup_premium_handler.js popup_team_handler.js popup_chat_handler.js volt_premium.js admin.js admin_entry.js volt-presets.js volt-helpers.js fpsInjected.js volumeInjected.js securityInjected.js volt-features.js volt-features-ui.js bg/*.js chatUIInjected.js audioHook.js privacy.js player.js",
+    "syntax": "set -e; for f in popup.js background.js popup_*.js volt_premium.js admin*.js content.js chatUIInjected.js bg/*.js; do node --check \"$f\"; done",
+    "typecheck": "tsc --noEmit -p jsconfig.json 2>&1 | tail -30 || true",
+    "typecheck:strict": "tsc --noEmit -p jsconfig.strict.json 2>&1 | tail -30 || true",
+    "audit:cws": "npm run syntax && npm run lint && npm test && npm run build:check && node scripts/validate-dist.js",
+    "audit:cws:timed": "node scripts/audit-cws-timed.js",
+    "test:unit": "echo 'Vitest removed (no GitHub CI)'",
+    "test:e2e": "echo 'Puppeteer e2e removed (no GitHub CI)'"
+  },
+  "dependencies": {
+    "terser": "^5.47.1"
+  },
+  "devDependencies": {
+    "eslint": "^10.3.0"
+  }
+}

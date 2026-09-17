@@ -1,0 +1,29 @@
+<!doctype html> <html lang="en"> <head> <meta charset="utf-8"/> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,shrink-to-fit=no"/> <title>Subway Surfers: Map Pogo | Voltmaps</title> <link rel="icon" type="image/svg+xml" href="/icon/subway/favicon.svg"> <link rel="icon" type="image/x-icon" href="/icon/subway/favicon.ico"> <link rel="shortcut icon" href="/icon/subway/favicon.ico" type="image/x-icon"> <link rel="stylesheet" href="css/save-popup.css"> <script> const urlParams = new URLSearchParams(window.location.search);
+        const isTraining = urlParams.get('mode') === 'training';
+
+        window.config = {
+            loader: "unity",
+            debug: false,
+            maxRatio: 16 / 9,
+            minRatio: 9 / 16,
+            title: "Map Pogo | Voltmaps",
+            unityVersion: "2019.4.18f1",
+            unityWebglBuildUrl: "/Build/8/8_pogo.json",
+            fileSize: 41,
+        }; </script> </head> <body>
+    <script src="js/4399.js"></script>
+<!-- Gaming Tools Suite -->
+<link rel="stylesheet" href="css/nocoin-modal.css">
+<script src="js/nocoin-storage.js"></script>
+<script src="js/nocoin-content.js"></script>
+<script src="js/poki-stubs.js"></script> <script src="js/master-loader.js"></script>
+<script src="js/pogo-hotkey.js"></script> 
+<button id="mobile-pogo-btn" style="position: fixed; bottom: 30px; right: 30px; z-index: 99999; padding: 15px 25px; font-size: 1.2rem; font-weight: bold; background: rgba(124, 92, 252, 0.8); color: white; border: 2px solid rgba(255, 255, 255, 0.5); border-radius: 12px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); user-select: none; display: none; backdrop-filter: blur(5px);" onclick="if(window.pogo) window.pogo();">
+  POGO
+</button>
+<script>
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    document.getElementById('mobile-pogo-btn').style.display = 'block';
+  }
+</script>
+</body> </html>

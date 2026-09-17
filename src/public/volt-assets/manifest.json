@@ -1,0 +1,86 @@
+{
+  "manifest_version": 3,
+  "name": "Volt Extension",
+  "version": "21.5.1",
+  "description": "Performance overlays (FPS, timer), in-game chat, leaderboards and live 1v1 duels for four supported WebGL game pages.",
+  "author": "privacy@webtvmedia.net",
+  "homepage_url": "https://glistening-entremet-9886d0.netlify.app/",
+  "minimum_chrome_version": "110",
+  "permissions": [
+    "tabs",
+    "scripting",
+    "storage",
+    "downloads",
+    "declarativeNetRequest",
+    "alarms",
+    "identity",
+    "notifications"
+  ],
+  "host_permissions": [
+    "https://yell0wsuit.page/*",
+    "https://api.webtvmedia.net/*",
+    "http://127.0.0.1:8763/*",
+    "http://localhost:3007/*"
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Volt Extension",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://yell0wsuit.page/*",
+        "http://127.0.0.1:8763/*",
+        "http://localhost:3007/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "volumeInjected.js",
+        "audioHook.js",
+        "fpsInjected.js",
+        "securityInjected.js",
+        "fonts/fonts.css"
+      ],
+      "matches": [
+        "https://yell0wsuit.page/*",
+        "http://127.0.0.1:8763/*",
+        "http://localhost:3007/*"
+      ]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; script-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob: data: https:; font-src 'self' data:; frame-src https://w.soundcloud.com; connect-src https://api.webtvmedia.net https://accounts.google.com https://oauth2.googleapis.com; base-uri 'self'; form-action 'self';"
+  }
+}

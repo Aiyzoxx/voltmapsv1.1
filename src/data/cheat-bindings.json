@@ -1,0 +1,22 @@
+{
+  "NOIMPO-0D35-7093-6D07": {
+    "hwid": "HWID-fa9574481feec685a9549f396debe511",
+    "mapType": "noimpo",
+    "boundAt": "2026-05-28T16:04:12.016Z"
+  },
+  "NOIMPO-8BDE-1F15-E9D3": {
+    "hwid": "HWID-9572b8d970e53b7faa9c303043cf6867",
+    "mapType": "noimpo",
+    "boundAt": "2026-05-29T21:43:12.202196Z"
+  },
+  "REDIMP-8487-2FBD-2D54": {
+    "hwid": "HWID-9572b8d970e53b7faa9c303043cf6867",
+    "mapType": "redimp",
+    "boundAt": "2026-05-29T21:45:48.363340Z"
+  },
+  "REDIMP-BA76-4B32-88B3": {
+    "hwid": "HWID-7322dccaf78cccf5d36022ab5a1a7f6f",
+    "mapType": "redimp",
+    "boundAt": "2026-05-29T21:55:46.876185Z"
+  }
+}

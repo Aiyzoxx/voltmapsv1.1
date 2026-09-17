@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volt — Admin Panel</title>
+  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="stylesheet" href="fontawesome-fallback.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <div class="admin-logo">V</div>
+        <div>
+          <div class="admin-title" data-i18n-key="admin.brand.title">Volt Admin</div>
+          <div class="admin-subtitle" id="admin-role-label" data-i18n-key="admin.brand.checking">Vérification…</div>
+        </div>
+      </div>
+      <nav class="admin-nav" id="admin-nav" aria-label="Navigation admin">
+        <button class="admin-nav-btn active" data-section="dashboard" data-i18n-key="admin.nav.dashboard">Dashboard</button>
+        <button class="admin-nav-btn" data-section="users" data-i18n-key="admin.nav.users">Utilisateurs</button>
+        <button class="admin-nav-btn" data-section="messages" data-i18n-key="admin.nav.messages">Messages</button>
+        <button class="admin-nav-btn" data-section="clans" data-i18n-key="admin.nav.clans">Clans</button>
+        <button class="admin-nav-btn" data-section="runs" data-i18n-key="admin.nav.runs">Runs</button>
+        <button class="admin-nav-btn" data-section="duels" data-i18n-key="admin.nav.duels">1v1 / Duels</button>
+        <button class="admin-nav-btn" data-section="review-queue" data-i18n-key="admin.nav.reviewQueue">Anti-cheat queue</button>
+        <button class="admin-nav-btn" data-section="seasons" data-i18n-key="admin.nav.seasons">Saisons ELO</button>
+        <button class="admin-nav-btn" data-section="logs" data-i18n-key="admin.nav.logs">Audit logs</button>
+        <button class="admin-nav-btn" data-section="stats" data-i18n-key="admin.nav.stats">Stats live</button>
+        <button class="admin-nav-btn" data-section="bans-ip" data-i18n-key="admin.nav.bansIp">Bans IP</button>
+        <button class="admin-nav-btn" data-section="appeals" data-i18n-key="admin.nav.appeals">Appels de ban</button>
+        <button class="admin-nav-btn" data-section="modlog" data-i18n-key="admin.nav.modlog">📋 Log Modéra.</button>
+        <button class="admin-nav-btn" data-section="badges" data-i18n-key="admin.nav.badges">🏆 Badges tournoi</button>
+        <button class="admin-nav-btn" data-section="usersearch" data-i18n-key="admin.nav.userSearch">🔍 Recherche</button>
+      </nav>
+      <div class="admin-sidebar-note" data-i18n-key="admin.sidebar.note">
+        Toutes les actions sensibles passent par des RPC Supabase et doivent être autorisées côté SQL.
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-header">
+        <div>
+          <h1 id="admin-page-title" data-i18n-key="admin.header.title">Dashboard admin</h1>
+          <p id="admin-page-description" data-i18n-key="admin.header.description">Vue d’ensemble de la modération et des anomalies.</p>
+        </div>
+        <div class="admin-header-actions">
+          <button class="admin-button secondary" id="admin-refresh-btn" type="button" data-i18n-key="admin.button.refresh">Rafraîchir</button>
+          <button class="admin-button danger ghost" id="admin-close-btn" type="button" data-i18n-key="admin.button.close">Fermer</button>
+        </div>
+      </header>
+
+      <section id="admin-alert" class="admin-alert" hidden></section>
+      <section id="admin-content" class="admin-content" aria-live="polite">
+        <div class="admin-loading" data-i18n-key="admin.loading.panel">Chargement du panneau admin…</div>
+      </section>
+    </main>
+  </div>
+
+  <div class="admin-modal-backdrop" id="admin-modal" hidden>
+    <div class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
+      <div class="admin-modal-head">
+        <h2 id="admin-modal-title" data-i18n-key="admin.modal.title">Confirmation admin</h2>
+        <button class="admin-icon-btn" id="admin-modal-close" type="button" aria-label="Fermer" data-i18n-title="admin.modal.closeAria">×</button>
+      </div>
+      <p id="admin-modal-description" class="admin-modal-desc"></p>
+      <div id="admin-modal-fields" class="admin-modal-fields"></div>
+      <label class="admin-label" for="admin-modal-reason" data-i18n-key="admin.modal.reasonLabel">Raison obligatoire</label>
+      <textarea id="admin-modal-reason" class="admin-input" rows="4" maxlength="1000" placeholder="Explique précisément la raison de l’action…" data-i18n-placeholder="admin.modal.reasonPlaceholder"></textarea>
+      <div class="admin-modal-actions">
+        <button class="admin-button secondary" id="admin-modal-cancel" type="button" data-i18n-key="admin.modal.cancel">Annuler</button>
+        <button class="admin-button danger" id="admin-modal-confirm" type="button" data-i18n-key="admin.modal.confirm">Confirmer</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="supabase-js.js"></script>
+  <script src="supabaseConfig.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
